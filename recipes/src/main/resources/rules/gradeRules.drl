@@ -1,0 +1,122 @@
+package rules;
+
+import com.bsep.recipes.dto.GradeDTO;
+import com.bsep.recipes.model.Grade;
+import com.bsep.recipes.model.RegisteredUser;
+import com.bsep.recipes.dto.StepDTO;
+import java.util.List
+
+
+rule "Grade 5"
+	when 
+		$grade : Grade(grade == null)
+		$gradeDTO: GradeDTO($steps: steps, $recipeid: recipeID)
+		$recipe: Recipe(id == $recipeid)
+		$ru: RegisteredUser()
+		Double(doubleValue/$steps.size()<=1.0, doubleValue/$steps.size()>=0.81) from accumulate (
+    	 						StepDTO(
+    	 							success == true
+    	 						)	 
+    	 						from $steps,
+    	 						init(double count = 0.0;),
+    	 						action(count += 1;),
+    	 						result(count)
+    	 					)
+	then
+		$grade.setGrade(5);
+		$grade.setUser($ru);
+		$ru.getGrades().add($grade);
+    	update($grade);
+    	update($ru);
+end
+
+rule "Grade 4"
+	when 
+		$grade : Grade(grade == null)
+		$gradeDTO: GradeDTO($steps: steps, $recipeid: recipeID)
+		$recipe: Recipe(id == $recipeid)
+		$ru: RegisteredUser()
+		Double(doubleValue/$steps.size()<=0.8, doubleValue/$steps.size()>=0.61) from accumulate (
+    	 						StepDTO(
+    	 							success == true
+    	 						)	 
+    	 						from $steps,
+    	 						init(double count = 0.0;),
+    	 						action(count += 1;),
+    	 						result(count)
+    	 					)
+	then
+		$grade.setGrade(4);
+		$grade.setUser($ru);
+		$ru.getGrades().add($grade);
+    	update($grade);
+    	update($ru);
+end
+
+rule "Grade 3"
+	when 
+		$grade : Grade(grade == null)
+		$gradeDTO: GradeDTO($steps: steps, $recipeid: recipeID)
+		$recipe: Recipe(id == $recipeid)
+		$ru: RegisteredUser()
+		Double(doubleValue/$steps.size() <= 0.6, doubleValue/$steps.size()>=0.41) from accumulate (
+    	 						StepDTO(
+    	 							success == true
+    	 						)	 
+    	 						from $steps,
+    	 						init(double count = 0.0;),
+    	 						action(count += 1;),
+    	 						result(count)
+    	 					)
+	then
+		$grade.setGrade(3);
+		$ru.getGrades().add($grade);
+    	update($grade);
+    	update($ru);
+end
+
+rule "Grade 2"
+	when 
+		$grade : Grade(grade == null)
+		$gradeDTO: GradeDTO($steps: steps, $recipeid: recipeID)
+		$recipe: Recipe(id == $recipeid)
+		$ru: RegisteredUser()
+		$d :Double(doubleValue/$steps.size() <=0.4, doubleValue/$steps.size()>=0.21) from accumulate (
+    	 						StepDTO(
+    	 							success == true
+    	 						)	 
+    	 						from $steps,
+    	 						init(double count = 0.0;),
+    	 						action(count += 1;),
+    	 						result(count)
+    	 					)
+	then
+		$grade.setGrade(2);
+		$grade.setUser($ru);
+		$ru.getGrades().add($grade);
+    	update($grade);
+    	update($ru);
+end
+
+rule "Grade 1"
+	when 
+		$grade : Grade(grade == null)
+		$gradeDTO: GradeDTO($steps: steps, $recipeid: recipeID)
+		$recipe: Recipe(id == $recipeid)
+		$ru: RegisteredUser()
+		Double(doubleValue/$steps.size() <= 0.2) from accumulate (
+    	 						StepDTO(
+    	 							success == true
+    	 						)	 
+    	 						from $steps,
+    	 						init(double count = 0.0;),
+    	 						action(count += 1;),
+    	 						result(count)
+    	 					)
+	then
+		$grade.setGrade(1);
+		$grade.setUser($ru);
+		$ru.getGrades().add($grade);
+    	update($grade);
+    	update($ru);
+end

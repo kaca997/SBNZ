@@ -1,0 +1,105 @@
+package rules;
+
+global ArrayList<Recipe> recipes;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Collection;
+import com.bsep.recipes.model.RegisteredUser;
+import com.bsep.recipes.model.Recipe;
+import com.bsep.recipes.model.RecipeComplexityType;
+import com.bsep.recipes.model.UserKnowledgeType;
+import com.bsep.recipes.model.Grade;
+import com.bsep.recipes.model.Ingredient;
+import com.bsep.recipes.dto.SearchRecipeDTO;
+import com.bsep.recipes.dto.RecipeResponseDTO;
+
+
+rule "Search recipes with ingredients for beginers"
+	when 
+		$found : RecipeResponseDTO()
+		$recipeSearch : SearchRecipeDTO($ingredientss: ingredients, $time: time, $price:price, $ingredientss!=null)
+		$user : RegisteredUser($likes: likes, $hates: hates, knowledge == UserKnowledgeType.BEGINER)
+		$recipesFound: ArrayList() from collect (
+    	 						Recipe(
+    	 							containsAll(ingredients, $ingredientss),
+ 									!containsAny(ingredients, $hates),
+    	 							time<=$time,
+    	 							price<=$price,
+    	 							complexity == RecipeComplexityType.EASY	
+    	 						)	 
+    	 						from recipes
+    	 					)
+	then
+		for(Object r : $recipesFound){
+			Recipe rec = (Recipe) r;
+			$found.getRecipes().add(rec);
+		}
+end
+
+rule "Search recipes with ingredients for intermediate"
+	when 
+		$found : RecipeResponseDTO()
+		$recipeSearch : SearchRecipeDTO($ingredientss: ingredients, $time: time, $price:price, $ingredientss!=null)
+		$user : RegisteredUser($likes: likes, $hates: hates, knowledge == UserKnowledgeType.INTERMEDIATE)
+		$recipesFound: ArrayList() from collect (
+    	 						Recipe(
+    	 							containsAll(ingredients, $ingredientss),
+ 									!containsAny(ingredients, $hates),
+    	 							time<=$time,
+    	 							price<=$price,
+    	 							complexity != RecipeComplexityType.HARD	
+    	 						)	 
+    	 						from recipes
+    	 					)
+	then
+		for(Object r : $recipesFound){
+			Recipe rec = (Recipe) r;
+			$found.getRecipes().add(rec);
+		}
+end
+
+rule "Search recipes with ingredients for advanced"
+	when 
+		$found : RecipeResponseDTO()
+		$recipeSearch : SearchRecipeDTO($ingredientss: ingredients, $time: time, $price:price, $ingredientss!=null)
+		$user : RegisteredUser($likes: likes, $hates: hates, knowledge == UserKnowledgeType.ADVANCED)
+		$recipesFound: ArrayList() from collect (
+    	 						Recipe(
+    	 							containsAll(ingredients, $ingredientss),
+ 									!containsAny(ingredients, $hates),
+    	 							time<=$time,
+    	 							price<=$price	
+    	 						)	 
+    	 						from recipes
+    	 					)
+	then
+		for(Object r : $recipesFound){
+			Recipe rec = (Recipe) r;
+			$found.getRecipes().add(rec);
+		}
+end
+
+function boolean containsAll(Collection sourceColl, Collection targetColl){
+	ArrayList sourceList = new ArrayList( sourceColl );
+	ArrayList targetList = new ArrayList( targetColl );
+    int size = targetList.size();
+    boolean s = false;
+    if(targetList.containsAll(sourceList)){
+    	s = true;
+    }
+    return s;
+}
+
+function boolean containsAny(Collection sourceCol, Collection targetCol){
+	ArrayList sourceLi = new ArrayList( sourceCol );
+	ArrayList targetLi = new ArrayList( targetCol );
+	System.out.println("source"+ sourceLi);
+    System.out.println("target"+ targetLi);
+    int sizee = sourceLi.size();
+    sourceLi.retainAll(targetLi);
+    boolean ss = false;
+    if(sourceLi.size() != 0){
+    	ss = true;
+    }
+    return ss;
+}

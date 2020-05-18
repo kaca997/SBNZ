@@ -1,0 +1,46 @@
+package rules;
+
+import com.bsep.recipes.model.RegisteredUser;
+import com.bsep.recipes.model.Recipe;
+import com.bsep.recipes.model.RecipeComplexityType;
+import com.bsep.recipes.model.UserKnowledgeType;
+import com.bsep.recipes.model.Grade;
+
+rule "Upgrade user to medium"
+	when 
+		$user : RegisteredUser($grades: grades, knowledge == UserKnowledgeType.BEGINER) @Watch (grades)
+		$n: Number(intValue==3) from accumulate (
+    	 						Grade(
+    	 							grade >= 4,
+    	 							recipe.complexity == RecipeComplexityType.EASY
+    	 						)	 
+    	 						from $grades,
+    	 						init(int count = 0;),
+    	 						action(count += 1;),
+    	 						result(count)
+    	 					)
+	then
+		System.out.println($grades);
+		System.out.println($n);
+		System.out.println("JOOOOO");
+		$user.setKnowledge(UserKnowledgeType.INTERMEDIATE);
+end
+
+rule "Upgrade user to advanced"
+	when 
+		$user : RegisteredUser($grades: grades, knowledge == UserKnowledgeType.INTERMEDIATE) @Watch (grades)
+		$n: Number(intValue==3) from accumulate (
+    	 						Grade(
+    	 							grade >= 4,
+    	 							recipe.complexity == RecipeComplexityType.MEDIUM
+    	 						)	 
+    	 						from $grades,
+    	 						init(int count = 0;),
+    	 						action(count += 1;),
+    	 						result(count)
+    	 					)
+	then
+		System.out.println($grades);
+		System.out.println($n);
+		$user.setKnowledge(UserKnowledgeType.ADVANCED);
+end

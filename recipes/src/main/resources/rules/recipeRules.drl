@@ -1,0 +1,29 @@
+package rules;
+
+import com.bsep.recipes.dto.RecipeDTO
+import com.bsep.recipes.model.Recipe
+import com.bsep.recipes.model.RecipeComplexityType;
+
+rule "New easy recipe"
+	when 
+		$recipeDTO: RecipeDTO(time<45 , steps.size()<6)
+		$recipe : Recipe()
+	then
+		$recipe.setComplexity(RecipeComplexityType.EASY);
+end
+
+rule "New hard recipe"
+	when 
+		$recipeDTO: RecipeDTO(time>90 , steps.size()>8)
+		$recipe : Recipe()
+	then
+		$recipe.setComplexity(RecipeComplexityType.HARD);
+end
+
+rule "New medium recipe"
+	when 
+		$recipeDTO: RecipeDTO(time<=90, time>=45, steps.size()<=8, steps.size()>=6)
+		$recipe : Recipe()
+	then
+		$recipe.setComplexity(RecipeComplexityType.MEDIUM);
+end

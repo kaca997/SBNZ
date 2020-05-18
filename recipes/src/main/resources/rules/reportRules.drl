@@ -1,0 +1,87 @@
+package rules;
+
+global ArrayList<RegisteredUser> allUsers;
+global ArrayList<Recipe> allRecipes;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Collection;
+import com.bsep.recipes.model.RegisteredUser;
+import com.bsep.recipes.model.Grade;
+import com.bsep.recipes.model.UserKnowledgeType;
+import com.bsep.recipes.model.RecipeComplexityType;
+import com.bsep.recipes.dto.UserReportsDTO;
+import com.bsep.recipes.dto.RecipeReportsDTO;
+
+rule "Best users"
+	when
+		$userList: UserReportsDTO()
+		$best1: ArrayList() from collect (
+    	 						RegisteredUser(
+    	 							knowledge == UserKnowledgeType.ADVANCED,
+    	 							countGrades(grades)
+    	 					)	 
+	 						from allUsers)
+	then
+		for(Object r : $best1){
+			RegisteredUser ru = (RegisteredUser) r;
+			$userList.getUsers().add(ru);
+		}
+end
+
+rule "Most popular recipes"
+	when
+		$recipeList: RecipeReportsDTO(best == true)
+		$max: Number() from accumulate(
+ 						Recipe(
+ 							$prepared: prepared
+ 						)	 
+ 						from allRecipes,
+ 						max($prepared)
+						)
+		$best1: ArrayList() from collect (
+    	 						Recipe(
+    	 							prepared == $max
+    	 					)	 
+	 						from allRecipes)
+	then
+		for(Object rec : $best1){
+			Recipe recipe = (Recipe) rec;
+			$recipeList.getRecipes().add(recipe);
+		}
+		delete($recipeList);
+end
+
+rule "Least popular recipes"
+	when
+		$recipeList: RecipeReportsDTO(best == false)
+		$min: Number() from accumulate(
+ 						Recipe(
+ 							$prepared: prepared
+ 						)	 
+ 						from allRecipes,
+ 						min($prepared)
+						)
+		$worst: ArrayList() from collect (
+    	 						Recipe(
+    	 							prepared == $min
+    	 					)	 
+	 						from allRecipes)
+	then
+		for(Object rec : $worst){
+			Recipe recipe = (Recipe) rec;
+			$recipeList.getRecipes().add(recipe);
+		}
+		delete($recipeList);
+end
+
+
+function boolean countGrades(Collection sourceColl){
+	ArrayList grades = new ArrayList( sourceColl );
+	int count = 0;
+	for(Object g: grades){
+		Grade gr = (Grade) g;
+		if(gr.getGrade()==5 && gr.getRecipe().getComplexity() == RecipeComplexityType.HARD)
+			count+=1;
+	}
+	return count>=5;
+}

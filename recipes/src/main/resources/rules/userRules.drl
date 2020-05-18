@@ -12,7 +12,7 @@ rule "Upgrade user to medium"
 		$n: Number(intValue==3) from accumulate (
     	 						Grade(
     	 							grade >= 4,
-    	 							recipe.complexity == RecipeComplexityType.EASY
+    	 							recipe.complexity == RecipeComplexityType.HARD
     	 						)	 
     	 						from $grades,
     	 						init(int count = 0;),

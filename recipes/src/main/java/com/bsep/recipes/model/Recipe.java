@@ -51,6 +51,9 @@ public class Recipe {
 	@Column
 	private Integer time;
 	
+	@Column
+	private Integer prepared;
+	
 	@ElementCollection
 	@CollectionTable(name = "ingredients")
 	private List<String> ingredients = new ArrayList<>();
@@ -138,6 +141,12 @@ public class Recipe {
 	public void setSteps(List<String> steps) {
 		this.steps = steps;
 	}
-	
-	
+
+	public Integer getPrepared() {
+		return prepared;
+	}
+
+	public void setPrepared(Integer prepared) {
+		this.prepared = prepared;
+	}	
 }

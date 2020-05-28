@@ -37,7 +37,7 @@ public class Recipe {
 	@Column
 	private String name;
 	
-	@Column
+	@Column(name = "rec_type")
 	@Enumerated(EnumType.STRING)
 	private RecipeType type;
 	
@@ -48,7 +48,7 @@ public class Recipe {
 	@Column
 	private Double price;
 	
-	@Column
+	@Column(name= "time_prep")
 	private Integer time;
 	
 	@Column
@@ -66,12 +66,11 @@ public class Recipe {
 		super();
 	}
 
-	public Recipe(String name, RecipeType type, RecipeComplexityType complexity, Double price, Integer time,
+	public Recipe(String name, RecipeType type, Double price, Integer time,
 			List<String> ingredients, List<String> steps) {
 		super();
 		this.name = name;
 		this.type = type;
-		this.complexity = complexity;
 		this.price = price;
 		this.time = time;
 		this.ingredients = ingredients;
@@ -148,5 +147,12 @@ public class Recipe {
 
 	public void setPrepared(Integer prepared) {
 		this.prepared = prepared;
+	}
+
+	@Override
+	public String toString() {
+		return "Recipe [id=" + id + ", name=" + name + ", type=" + type + ", complexity=" + complexity + ", price="
+				+ price + ", time=" + time + ", prepared=" + prepared + ", ingredients=" + ingredients + ", steps="
+				+ steps + "]";
 	}	
 }

@@ -15,6 +15,8 @@ public class RecipeDTO {
 	
 	private Integer time;
 	
+	private List<String> ingredients;
+	
 	private List<String> steps;
 
 	public RecipeDTO() {
@@ -60,6 +62,20 @@ public class RecipeDTO {
 
 	public void setSteps(List<String> steps) {
 		this.steps = steps;
+	}
+
+	public List<String> getIngredients() {
+		return ingredients;
+	}
+
+	public void setIngredients(List<String> ingredients) {
+		this.ingredients = ingredients;
+	}
+
+	@Override
+	public String toString() {
+		return "RecipeDTO [name=" + name + ", type=" + type + ", price=" + price + ", time=" + time + ", ingredients="
+				+ ingredients + ", steps=" + steps + "]";
 	}
 	
 	

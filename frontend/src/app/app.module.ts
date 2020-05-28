@@ -13,18 +13,31 @@ import { AppRoutes } from './app.routing';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { Interceptor } from './interceptors/intercept.service';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { SearchRecipeComponent } from './components/recipes/search-recipe/search-recipe.component';
+import { MainRecipesComponent } from './components/recipes/main-recipes/main-recipes.component';
+import { RecipeDetailsComponent } from './components/recipes/recipe-details/recipe-details.component';
+import { ReportsRecipeComponent } from './components/reports/reports-recipe/reports-recipe.component';
+import { AddRecipeComponent } from './components/recipes/add-recipe/add-recipe.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent,
+    AddRecipeComponent,
+    SearchRecipeComponent,
+    MainRecipesComponent,
+    RecipeDetailsComponent,
+    ReportsRecipeComponent,
   ],
   imports: [
     BrowserAnimationsModule,
+    FormsModule,
     ReactiveFormsModule,
     RouterModule,
     HttpClientModule,

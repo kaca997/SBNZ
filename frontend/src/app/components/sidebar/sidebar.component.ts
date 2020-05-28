@@ -19,6 +19,12 @@ export const ROUTES: RouteInfo[] = [
     icon: "icon-bell-55",
     class: ""
   },
+  {
+    path: "/addRecipe",
+    title: "Add recipe",
+    icon: "icon-bell-55",
+    class: ""
+  },
 ];
 
 @Component({

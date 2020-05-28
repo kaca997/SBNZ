@@ -1,0 +1,97 @@
+<div class="main-content">
+    <div class="card">
+    </div>
+    <div class="card-body">
+      <div class="row justify-content-center align-items-center">
+        <form class="col-md-12 box" [formGroup]="formAddRecipe">
+          <fieldset>
+            <div class="form-group row">
+              <label for="name" class="control-label col-md-3"><b>Name:</b></label>
+              <div class="col-md-9">
+                <input type="text" class="form-control" id="name" name="name" placeholder="Name" formControlName="name">
+                <small class="text-danger"  *ngIf="formAddRecipe.controls.name.touched && formAddRecipe.controls.name.errors?.required">
+                  This field can't be empty!</small>
+              </div>
+            </div>
+            <div class="form-group row">
+                <label for="type" class="control-label col-md-3"><b>Type:</b></label>
+                <div class="col-md-9">
+                    <select class="form-control" id="type" name="type" placeholder="Type" formControlName="type">
+                        <option value="SALAD">Salad</option>
+                        <option value="SIDE_DISH">Side Dish</option>
+                        <option value="MAIN">Main Dish</option>
+                        <option value="DESSERT">Dessert</option>
+                    </select>
+                    <small class="text-danger"  *ngIf="formAddRecipe.controls.type.touched && formAddRecipe.controls.type.errors?.required">
+                    This field can't be empty!</small>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="price" class="control-label col-md-3"><b>Price:</b></label>
+                <div class="col-md-9">
+                  <input type="number" class="form-control" id="price" name="price" placeholder="Price" formControlName="price">
+                  <small class="text-danger"  *ngIf="formAddRecipe.controls.price.touched && formAddRecipe.controls.price.errors?.required">
+                    This field can't be empty!</small>
+                </div>
+              </div>
+
+            <div class="form-group row">
+              <label for="userId" class="control-label col-md-3"><b>Time:</b></label>
+              <div class="col-md-9">
+                <input type="number" class="form-control" id="time" name="time" placeholder="Preparation time" formControlName="time">
+                <small class="text-danger"  *ngIf="formAddRecipe.controls.time.touched && formAddRecipe.controls.time.errors?.required">
+                  This field can't be empty!</small>
+              </div>
+            </div>
+            <div class="form-group row d-flex">
+                <label for="userId" class="control-label col-md-3"><b>Ingredients:</b></label>
+                <div class="col-md-8">
+                  <input type="text" class="form-control"  id="ingredient" name="ingredient" placeholder="Ingredient" formControlName="ingredient">
+                </div>
+                <div class="col-md-1">
+                    <button class="btn btn-success btn-block btn-round btn-sm" [disabled]="!formAddRecipe.value.ingredient" (click)="addIngredient()">
+                      <i class="fa fa-plus"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-md-3"></div>
+                <div class="col-md-9">
+                    <ul *ngFor="let ingr of ingredients">
+                        <li>{{ingr}}</li>
+                    </ul>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="step" class="control-label col-md-3"><b>Steps:</b></label>
+                <div class="col-md-8">
+                  <input type="text" class="form-control" id="step" name="step" placeholder="Step" formControlName="step">
+                </div>
+                <div class="col-md-1">
+                    <button class="btn btn-success btn-block btn-round btn-sm" [disabled]="!formAddRecipe.value.step" (click)="addStep()">
+                      <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-md-3"></div>
+                <div class="col-md-9">
+                    <ul *ngFor="let step of steps">
+                        <li>{{step}}</li>
+                    </ul>
+                </div>
+              </div>
+            <div class="row">
+              <div class="col-md-3"></div>
+              <div class="col-md-6 text-center">
+                <button class="btn btn-round" [disabled]="!formAddRecipe.valid || noSteps || noIngredients" (click)="addRecipe()">Add recipe</button>
+              </div>
+              <div class="col-md-3"></div>
+            </div>
+      
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,125 @@
+<div class="wrapper fadeInDown">
+    <div class="card-body">      
+    <div class="row flex">
+      <form class="col-md-12 box" [formGroup]="formReg">
+        <fieldset>
+          <div class="form-group row">
+            <div class="col-md-3"></div>
+              <div class="col-md-6">
+                <legend>Sign up</legend>
+              </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-md-3"></div>
+            <label for="username" class="control-label col-md-3">First Name</label>
+          </div>
+          <div class="form-group row">
+            <div class="col-md-3"></div>  
+            <div class="col-md-6">
+              <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name" formControlName="firstName">
+              <br>
+              <small id="firstName-empty" class="text-danger"  *ngIf="formReg.controls.firstName.touched && formReg.controls.firstName.errors?.required">
+                This field can't be empty!</small>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-md-3"></div>
+            <label for="username" class="control-label col-md-3">Last Name</label>
+          </div>
+          <div class="form-group row">
+            <div class="col-md-3"></div>  
+            <div class="col-md-6">
+              <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last Name" formControlName="lastName">
+              <br>
+              <small id="lastName-empty" class="text-danger"  *ngIf="formReg.controls.lastName.touched && formReg.controls.lastName.errors?.required">
+                This field can't be empty!</small>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-md-3"></div>
+            <label for="username" class="control-label col-md-3">Username</label>
+          </div>
+          <div class="form-group row">
+            <div class="col-md-3"></div>  
+            <div class="col-md-6">
+              <input type="text" class="form-control" id="username" name="username" placeholder="Username" formControlName="username">
+              <br>
+              <small id="username-empty" class="text-danger"  *ngIf="formReg.controls.username.touched && formReg.controls.username.errors?.required">
+                This field can't be empty!</small>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-md-3"></div>
+            <label for="username" class="control-label col-md-6">Password</label>
+          </div>
+          <div class="form-group row">
+            <div class="col-md-3"></div>  
+            <div class="col-md-6">
+              <input type="password" class="form-control" id="password" name="password" placeholder="Password" formControlName="password">
+              <br>
+              <small id="password-empty" class="text-danger"  *ngIf="formReg.controls.password.touched && formReg.controls.password.errors?.required">
+                This field can't be empty!</small>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-md-3"></div>
+            <label for="username" class="control-label col-md-6">Repeat Password</label>
+          </div>
+          <div class="form-group row">
+            <div class="col-md-3"></div>  
+            <div class="col-md-6">
+              <input type="password" class="form-control" id="repeatedPassword" name="repeatedPassword" placeholder="Repeat Password" formControlName="repeatedPassword">
+              <br>
+              <small id="repeatedPassword-empty" class="text-danger"  *ngIf="formReg.controls.repeatedPassword.touched && formReg.controls.repeatedPassword.errors?.required">
+                This field can't be empty!</small>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-md-3"></div>
+                <label for="username" class="control-label col-md-3">Ingredients you like</label>
+                <label for="username" class="control-label col-md-3">Ingredients you don't like</label>
+          </div>
+          <div class="form-group row">
+            <div class="col-md-3"></div>    
+            <div class="col-sm-2">
+              <input type="text" class="form-control"  id="like" name="like" placeholder="Ingredient" formControlName="like">
+            </div>
+            <div class="col-sm-1">
+                <button class="btn btn-success btn-round btn-sm" [disabled]="!formReg.value.like" (click)="addIngredientLike()">
+                  <i class="fa fa-plus"></i>
+                </button>
+            </div>
+            <div class="col-sm-2">
+                <input type="text" class="form-control"  id="hate" name="hate" placeholder="Ingredient" formControlName="hate">
+              </div>
+              <div class="col-sm-1">
+                  <button class="btn btn-success btn-round btn-sm" [disabled]="!formReg.value.hate" (click)="addIngredientHate()">
+                    <i class="fa fa-plus"></i>
+                  </button>
+              </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-md-3"></div>
+            <div class="col-md-3">
+                <ul *ngFor="let like of likes">
+                    <li>{{like}}</li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <ul *ngFor="let hate of hates">
+                    <li>{{hate}}</li>
+                </ul>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+              <button class="btn btn-round btn-block"  [disabled]="!formReg.valid" (click)="register()">Sign up</button>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</div>>

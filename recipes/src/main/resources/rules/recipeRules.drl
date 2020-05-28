@@ -14,7 +14,7 @@ end
 
 rule "New hard recipe"
 	when 
-		$recipeDTO: RecipeDTO(time>90 , steps.size()>8)
+		$recipeDTO: RecipeDTO(time>90 || steps.size()>8)
 		$recipe : Recipe()
 	then
 		$recipe.setComplexity(RecipeComplexityType.HARD);
@@ -22,8 +22,18 @@ end
 
 rule "New medium recipe"
 	when 
-		$recipeDTO: RecipeDTO(time<=90, time>=45, steps.size()<=8, steps.size()>=6)
+		$recipeDTO: RecipeDTO(time<=90, time>=45)
 		$recipe : Recipe()
 	then
+		System.out.println("HEJ");
+		$recipe.setComplexity(RecipeComplexityType.MEDIUM);
+end
+
+rule "New medium recipe2"
+	when 
+		$recipeDTO: RecipeDTO(steps.size()<=8, steps.size()>=6)
+		$recipe : Recipe()
+	then
+		System.out.println("HEJ2");
 		$recipe.setComplexity(RecipeComplexityType.MEDIUM);
 end

@@ -35,14 +35,17 @@ export class LoginComponent implements OnInit {
 		auth.password = this.form.value.password;
 		this.authenticationService.login(auth).subscribe(
 			result => {
-        this.toastr.success('Login successfull!');
-        		// alert('Login successfull!')
-				// localStorage.setItem('user', result);
+				this.toastr.success('Login successfull!');
+				// alert('Login successfull!')
+				localStorage.setItem('user', result);
 				//console.log(result);
 				//console.log(jwt.decodeToken(result));
 				let info = jwt.decodeToken(result)
-				console.log(info.role[0].authority);
-				//this.router.navigate(['certificate']);
+				console.log(info);
+				if(this.authenticationService.getRole()==="ROLE_ADMIN")
+					this.router.navigate(['addRecipe']);
+				else
+					this.router.navigate(['searchRecipe'])
 			},
 			error => {
 				console.log(error);

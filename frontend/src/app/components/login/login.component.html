@@ -38,12 +38,19 @@
           </div>
 
           <div class="row">
-            <div class="col-lg-4"></div>
-            <div class="col-lg-8">
-              <button type="submit" class="btn btn-round" style="background-color:teal; color: black;" [disabled]="!form.valid">Log in</button>
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+              <button type="submit" class="btn btn-round btn-block"  [disabled]="!form.valid">Log in</button>
             </div>
           </div>
-
+          <div class="row">
+            <div class="col-md-5"></div>
+            <div class="col-md-2">
+            <p class="d-flex">Not a member?
+              <a [routerLink]="['/register']">Register</a>
+            </p>
+          </div>
+          </div>
         </fieldset>
       </form>
     </div>

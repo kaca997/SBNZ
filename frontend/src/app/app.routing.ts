@@ -3,11 +3,17 @@ import { Routes } from '@angular/router';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { LoginComponent } from './components/login/login.component';
 import { LoginGuard } from './guards/login-guard.service';
+import { RegisterComponent } from './components/register/register.component';
 
 export const AppRoutes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+    canActivate: [LoginGuard]
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
     canActivate: [LoginGuard]
   },
   {

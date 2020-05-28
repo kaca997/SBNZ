@@ -47,8 +47,10 @@ public class RegisteredUser extends User {
 	}
 
 	public RegisteredUser(String username, String password, String firstName, String lastName,
-			List<Authority> authorities) {
-		super(username, password, firstName, lastName, authorities);
+			List<String> likes, List<String> hates) {
+		super(username, password, firstName, lastName);
+		this.likes = likes;
+		this.hates = hates;
 	}
 
 	public UserKnowledgeType getKnowledge() {
@@ -81,4 +83,13 @@ public class RegisteredUser extends User {
 	public void setGrades(List<Grade> grades) {
 		this.grades = grades;
 	}
+
+	@Override
+	public String toString() {
+		return "RegisteredUser [knowledge=" + knowledge + ", likes=" + likes + ", hates=" + hates + ", grades=" + grades
+				+ ", toString()=" + super.toString() + "]";
+	}
+	
+	
+	
 }

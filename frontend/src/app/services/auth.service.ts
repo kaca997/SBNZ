@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
 	providedIn: 'root'
@@ -29,4 +30,25 @@ export class AuthenticationService {
 		}
 		return false;
   }
+  	isAdmin(): boolean {
+		const token = localStorage.getItem('user');
+		const jwt: JwtHelperService = new JwtHelperService();
+		const info = jwt.decodeToken(token);
+		if (info.role == "ROLE_ADMIN") {
+			return true;
+		}
+		return false;
+	}
+
+	getRole(): string {
+		const token = localStorage.getItem('user');
+		const jwt: JwtHelperService = new JwtHelperService();
+		const info = jwt.decodeToken(token);
+		return info.role;
+	}
+	
+  	register(user: any): Observable<any> {
+		let registerUrl =  "http://localhost:8080/auth/registration";
+		return this.http.post(registerUrl, user, {headers: this.headers, responseType: 'text'});
+	}
 }

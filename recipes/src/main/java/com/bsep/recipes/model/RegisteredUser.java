@@ -11,16 +11,9 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 
 @Entity
@@ -38,9 +31,9 @@ public class RegisteredUser extends User {
 	@CollectionTable(name = "hates")
 	private List<String> hates = new ArrayList<>();
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "grade")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JsonBackReference(value="registeredUser-grade")
-	private List<Grade> grades = new ArrayList<>();
+	private List<Grade> grades = new ArrayList<Grade>();
 
 	public RegisteredUser() {
 		super();
@@ -53,6 +46,14 @@ public class RegisteredUser extends User {
 		this.hates = hates;
 	}
 
+	public RegisteredUser(String username, String password, String firstName, String lastName,
+			List<String> likes, List<String> hates, List<Grade>grades) {
+		super(username, password, firstName, lastName);
+		this.likes = likes;
+		this.hates = hates;
+		this.grades = grades;
+	}
+	
 	public UserKnowledgeType getKnowledge() {
 		return knowledge;
 	}

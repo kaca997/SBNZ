@@ -12,8 +12,10 @@ import com.bsep.recipes.model.RecipeComplexityType;
 import com.bsep.recipes.dto.UserReportsDTO;
 import com.bsep.recipes.dto.RecipeReportsDTO;
 
+
 rule "Best users"
 	when
+		$foundUsers: ArrayList()
 		$userList: UserReportsDTO()
 		$best1: ArrayList() from collect (
     	 						RegisteredUser(
@@ -22,10 +24,7 @@ rule "Best users"
     	 					)	 
 	 						from allUsers)
 	then
-		for(Object r : $best1){
-			RegisteredUser ru = (RegisteredUser) r;
-			$userList.getUsers().add(ru);
-		}
+		$foundUsers.addAll($best1);
 end
 
 rule "Most popular recipes"
@@ -44,10 +43,7 @@ rule "Most popular recipes"
     	 					)	 
 	 						from allRecipes)
 	then
-		for(Object rec : $best1){
-			Recipe recipe = (Recipe) rec;
-			$recipeList.getRecipes().add(recipe);
-		}
+		$recipeList.setRecipes($best1);
 		delete($recipeList);
 end
 
@@ -67,16 +63,14 @@ rule "Least popular recipes"
     	 					)	 
 	 						from allRecipes)
 	then
-		for(Object rec : $worst){
-			Recipe recipe = (Recipe) rec;
-			$recipeList.getRecipes().add(recipe);
-		}
+		$recipeList.setRecipes($worst);
 		delete($recipeList);
 end
 
 
 function boolean countGrades(Collection sourceColl){
 	ArrayList grades = new ArrayList( sourceColl );
+	System.out.println(grades.size());
 	int count = 0;
 	for(Object g: grades){
 		Grade gr = (Grade) g;

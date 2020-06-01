@@ -7,23 +7,30 @@ import com.bsep.recipes.model.RegisteredUser;
 
 public class UserReportsDTO {
 
-	private List<RegisteredUser> users;
+	private List<BestUserDTO> users;
 
-	public UserReportsDTO(List<RegisteredUser> users) {
+	public UserReportsDTO(List<BestUserDTO> users) {
 		super();
 		this.users = users;
 	}
 
 	public UserReportsDTO() {
 		super();
-		this.users = new ArrayList<RegisteredUser>();
+		this.users = new ArrayList<BestUserDTO>();
 	}
 
-	public List<RegisteredUser> getUsers() {
+	public List<BestUserDTO> getUsers() {
 		return users;
 	}
 
-	public void setUsers(List<RegisteredUser> users) {
+	public void setUsers(List<BestUserDTO> users) {
 		this.users = users;
 	}
+
+	@Override
+	public String toString() {
+		return "UserReportsDTO [users=" + users + "]";
+	}
+	
+	
 }

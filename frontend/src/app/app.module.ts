@@ -22,6 +22,7 @@ import { RecipeDetailsComponent } from './components/recipes/recipe-details/reci
 import { ReportsRecipeComponent } from './components/reports/reports-recipe/reports-recipe.component';
 import { AddRecipeComponent } from './components/recipes/add-recipe/add-recipe.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
+import { ReportsUserComponent } from './components/reports/reports-user/reports-user.component';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
     MainRecipesComponent,
     RecipeDetailsComponent,
     ReportsRecipeComponent,
+    ReportsUserComponent
   ],
   imports: [
     BrowserAnimationsModule,

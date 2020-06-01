@@ -3,20 +3,20 @@ INSERT INTO `authorities` (id,user_type) VALUES (1, 'ROLE_ADMIN'), (2,'ROLE_REGI
 INSERT INTO `users` (dtype, id, username, password) VALUES 
 ('Admin', 1, 'admin', '$2a$10$dd7baWr6v5Kgd6U0qIKdBOiVSMX.89afQAI3.cQjkTyjrDbY3DElO');
 
-INSERT INTO `users` (dtype, id, username, password, knowledge) VALUES 
-('RegisteredUser', 2, 'user', '$2a$10$dd7baWr6v5Kgd6U0qIKdBOiVSMX.89afQAI3.cQjkTyjrDbY3DElO', 'ADVANCED');
+INSERT INTO `users` (dtype, id, username, password, knowledge, first_name, last_name) VALUES 
+('RegisteredUser', 2, 'user', '$2a$10$dd7baWr6v5Kgd6U0qIKdBOiVSMX.89afQAI3.cQjkTyjrDbY3DElO', 'ADVANCED', 'Pera', 'Peric');
 
 INSERT INTO `user_authority` (user_id, authority_id) VALUES (1, 1), (2, 2);
 
 INSERT INTO `recipe` (id, complexity, name, prepared, price, time_prep, rec_type) VALUES
-	(1, 'EASY', 'Recipe1', 10, 2, 15, 'SALAD'),
+	(1, 'EASY', 'Recipe1', 7, 2, 15, 'SALAD'),
 	(2, 'MEDIUM', 'Recipe2', 10, 2, 15, 'SIDE_DISH'),
 	(3, 'HARD', 'Recipe3', 10, 2, 15, 'DESSERT'),
-	(4, 'EASY', 'Recipe4', 10, 2, 15, 'MAIN'),
-	(5, 'EASY', 'Recipe5', 10, 2, 15, 'MAIN'),
-	(6, 'EASY', 'Recipe6', 10, 2, 15, 'SIDE_DISH'),
-	(7, 'EASY', 'Recipe7', 10, 2, 15, 'SIDE_DISH'),
-	(8, 'MEDIUM', 'Recipe8', 10, 2, 15, 'SALAD');
+	(4, 'EASY', 'Recipe4', 8, 2, 15, 'MAIN'),
+	(5, 'EASY', 'Recipe5', 9, 2, 15, 'MAIN'),
+	(6, 'EASY', 'Recipe6', 1, 2, 15, 'SIDE_DISH'),
+	(7, 'EASY', 'Recipe7', 0, 2, 15, 'SIDE_DISH'),
+	(8, 'MEDIUM', 'Recipe8', 0, 2, 15, 'SALAD');
 	
 INSERT INTO `ingredients` (recipe_id, ingredients) VALUES
 	(1, 'krastavac'),
@@ -50,3 +50,5 @@ INSERT INTO `likes` (registered_user_id, likes) VALUES
 	
 INSERT INTO `hates` (registered_user_id, hates) VALUES
 	(2, 'paprika');	
+INSERT INTO `grade` (id, grade, recipe_id, user_id) VALUES
+	(1, 5, 3, 2);

@@ -22,4 +22,9 @@ export class ReportsService {
     let leastPopularRecipesURL =  "http://localhost:8080/leastPopularRecipes";
     return this.http.get(leastPopularRecipesURL, {headers: this.headers});
     }
+
+  bestUsers(): Observable<any> {
+    let bestUsersURL =  "http://localhost:8080/bestUsers";
+    return this.http.get(bestUsersURL, {headers: this.headers});
+    }
 }

@@ -1,8 +1,11 @@
 import { Component, OnInit, Renderer2, ViewChild, ElementRef } from '@angular/core';
 import { ROUTES } from '../../sidebar/sidebar.component';
-import { Router } from '@angular/router';
+import { Router, Data } from '@angular/router';
 import { Location} from '@angular/common';
 import { AuthenticationService } from 'app/services/auth.service';
+import { RecipeService } from 'app/services/recipe.service';
+import { DataService } from 'app/services/data.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     moduleId: module.id,
@@ -16,11 +19,13 @@ export class NavbarComponent implements OnInit{
     private nativeElement: Node;
     private toggleButton;
     private sidebarVisible: boolean;
+    private recipeName: string = "";
 
     public isCollapsed = true;
     @ViewChild("navbar-cmp", {static: false}) button;
 
-    constructor(location:Location, private renderer : Renderer2, private element : ElementRef, private router: Router, private authService: AuthenticationService) {
+    constructor(location:Location, private renderer : Renderer2, private element : ElementRef, private router: Router, private authService: AuthenticationService,
+      private recipeService : RecipeService, private dataService:DataService, private toastr: ToastrService) {
         this.location = location;
         this.nativeElement = element.nativeElement;
         this.sidebarVisible = false;
@@ -53,55 +58,73 @@ export class NavbarComponent implements OnInit{
             this.sidebarClose();
         }
       }
-      sidebarOpen() {
-          const toggleButton = this.toggleButton;
-          const html = document.getElementsByTagName('html')[0];
-          const mainPanel =  <HTMLElement>document.getElementsByClassName('main-panel')[0];
-          setTimeout(function(){
-              toggleButton.classList.add('toggled');
-          }, 500);
+    sidebarOpen() {
+        const toggleButton = this.toggleButton;
+        const html = document.getElementsByTagName('html')[0];
+        const mainPanel =  <HTMLElement>document.getElementsByClassName('main-panel')[0];
+        setTimeout(function(){
+            toggleButton.classList.add('toggled');
+        }, 500);
 
-          html.classList.add('nav-open');
-          if (window.innerWidth < 991) {
-            mainPanel.style.position = 'fixed';
-          }
-          this.sidebarVisible = true;
-      };
-      sidebarClose() {
-          const html = document.getElementsByTagName('html')[0];
-          const mainPanel =  <HTMLElement>document.getElementsByClassName('main-panel')[0];
-          if (window.innerWidth < 991) {
-            setTimeout(function(){
-              mainPanel.style.position = '';
-            }, 500);
-          }
-          this.toggleButton.classList.remove('toggled');
-          this.sidebarVisible = false;
-          html.classList.remove('nav-open');
-      };
-      collapse(){
-        this.isCollapsed = !this.isCollapsed;
-        const navbar = document.getElementsByTagName('nav')[0];
-        console.log(navbar);
-        if (!this.isCollapsed) {
-          navbar.classList.remove('navbar-transparent');
-          navbar.classList.add('bg-white');
-        }else{
-          navbar.classList.add('navbar-transparent');
-          navbar.classList.remove('bg-white');
+        html.classList.add('nav-open');
+        if (window.innerWidth < 991) {
+          mainPanel.style.position = 'fixed';
         }
-
+        this.sidebarVisible = true;
+    };
+    sidebarClose() {
+        const html = document.getElementsByTagName('html')[0];
+        const mainPanel =  <HTMLElement>document.getElementsByClassName('main-panel')[0];
+        if (window.innerWidth < 991) {
+          setTimeout(function(){
+            mainPanel.style.position = '';
+          }, 500);
+        }
+        this.toggleButton.classList.remove('toggled');
+        this.sidebarVisible = false;
+        html.classList.remove('nav-open');
+    };
+    collapse(){
+      this.isCollapsed = !this.isCollapsed;
+      const navbar = document.getElementsByTagName('nav')[0];
+      console.log(navbar);
+      if (!this.isCollapsed) {
+        navbar.classList.remove('navbar-transparent');
+        navbar.classList.add('bg-white');
+      }else{
+        navbar.classList.add('navbar-transparent');
+        navbar.classList.remove('bg-white');
       }
 
-      logout(){
-        console.log("Logout");
-        this.authService.logout().subscribe(
-          result =>{
-            localStorage.removeItem("user");
-            this.router.navigate(['/login']);
-          }
-        );
+    }
 
-      }
+    logout(){
+      console.log("Logout");
+      this.authService.logout().subscribe(
+        result =>{
+          localStorage.removeItem("user");
+          this.router.navigate(['/login']);
+        }
+      );
 
+    }
+
+    searchRecipes(){
+      console.log("search");
+      const recipe: any = {};
+      recipe.name = this.recipeName;
+      console.log(recipe);
+      this.recipeService.searchRecipeByName(recipe).subscribe(
+        result => {
+          //this.toastr.success("Success");
+          console.log("result",result.recipes);
+          this.dataService.changeRecipes(result.recipes);
+          this.router.navigate(['foundRecipes']);
+        },
+        error => {
+          console.log(error);
+          this.toastr.error(error.error);
+        }
+      )
+    }
 }

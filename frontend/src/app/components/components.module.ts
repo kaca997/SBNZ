@@ -13,10 +13,11 @@ import { MainRecipesComponent } from './recipes/main-recipes/main-recipes.compon
 import { RecipeDetailsComponent } from './recipes/recipe-details/recipe-details.component';
 import { ReportsRecipeComponent } from './reports/reports-recipe/reports-recipe.component';
 import { AddRecipeComponent } from './recipes/add-recipe/add-recipe.component';
+import { ErrorPageComponent } from './error-page/error-page.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, NgbModule,  ReactiveFormsModule, FormsModule],
-  declarations: [ NavbarComponent, SidebarComponent, LoginComponent, AddRecipeComponent, RegisterComponent, SearchRecipeComponent, MainRecipesComponent, RecipeDetailsComponent, ReportsRecipeComponent],
-  exports: [NavbarComponent, SidebarComponent, LoginComponent, AddRecipeComponent, RegisterComponent, SearchRecipeComponent, MainRecipesComponent]
+  declarations: [ NavbarComponent, SidebarComponent, LoginComponent, AddRecipeComponent, RegisterComponent, SearchRecipeComponent, MainRecipesComponent, RecipeDetailsComponent, ReportsRecipeComponent, ErrorPageComponent],
+  exports: [NavbarComponent, SidebarComponent, LoginComponent, AddRecipeComponent, RegisterComponent, SearchRecipeComponent, MainRecipesComponent,ErrorPageComponent]
 })
 export class ComponentsModule {}

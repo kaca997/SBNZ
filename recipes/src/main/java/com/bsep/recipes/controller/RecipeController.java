@@ -66,4 +66,18 @@ public class RecipeController {
 			return new ResponseEntity<String>("Error has accured!",HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	@RequestMapping(value = "/searchRecipeByName", method = RequestMethod.POST, produces = "application/json")
+	public ResponseEntity<?> searchRecipeByName(@RequestBody SearchRecipeDTO dto) {
+		System.out.println(dto);
+		try {
+			RecipeResponseDTO found = recipeService.findRecipesByName(dto);
+			return new ResponseEntity<RecipeResponseDTO>(found, HttpStatus.OK);
+		}
+		catch (Exception e) {	
+			e.printStackTrace();
+			return new ResponseEntity<String>("Error has accured!",HttpStatus.BAD_REQUEST);
+		}
+	}
+
 }

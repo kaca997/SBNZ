@@ -10,6 +10,7 @@ public class SearchRecipeDTO {
 	private int time;
 	private double price;
 	private List<RecipeType> types;
+	private String name;
 	public SearchRecipeDTO(List<String> ingredients, int time, double price) {
 		super();
 		this.ingredients = ingredients;
@@ -48,9 +49,15 @@ public class SearchRecipeDTO {
 	public void setIngredients(List<String> ingredients) {
 		this.ingredients = ingredients;
 	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	@Override
 	public String toString() {
 		return "SearchRecipeDTO [ingredients=" + ingredients + ", time=" + time + ", price=" + price + ", types="
-				+ types + "]";
+				+ types + ", name=" + name + "]";
 	}
 }

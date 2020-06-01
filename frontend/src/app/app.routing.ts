@@ -4,6 +4,7 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
 import { LoginComponent } from './components/login/login.component';
 import { LoginGuard } from './guards/login-guard.service';
 import { RegisterComponent } from './components/register/register.component';
+import { ErrorPageComponent } from './components/error-page/error-page.component';
 
 export const AppRoutes: Routes = [
   {
@@ -28,8 +29,10 @@ export const AppRoutes: Routes = [
       path: '',
       loadChildren: './layouts/admin-layout/admin-layout.module#AdminLayoutModule'
   }]},
+  { path: 'not-found', component: ErrorPageComponent},
+  { path: '**', redirectTo: '/not-found'},
   {
-    path: '**',
-    redirectTo: 'dashboard'
+    path: "**",
+    redirectTo: "not-found"
   }
 ]

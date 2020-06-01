@@ -10,12 +10,14 @@ import { Router } from '@angular/router';
 export class MainRecipesComponent implements OnInit {
 
   recipes: Array<any> = [];
+  count: number= 0;
   constructor(private data: DataService, private router: Router) { }
 
   ngOnInit() {
     this.data.recipes.subscribe(recipes => this.recipes = recipes)
     console.log("OUI")
     console.log(this.recipes);
+    this.count = this.recipes.length;
     // this.recipes = [{id: 2, name: "Recipe2", type: "SIDE_DISH", complexity: "MEDIUM", price: 2, time: 50}];
 
   }

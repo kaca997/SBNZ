@@ -110,4 +110,21 @@ public class RecipeService {
 		kieSession.dispose();
 		return found;
 	}
+	
+	public RecipeResponseDTO findRecipesByName(SearchRecipeDTO dto) {
+		ArrayList<Recipe> recipes = (ArrayList<Recipe>) recipeRepo.findAll();
+		System.out.println(recipes);
+		RecipeResponseDTO found = new RecipeResponseDTO();
+		KieSession kieSession = kieContainer.newKieSession("rulesSession");
+		kieSession.setGlobal("recipes", recipes);
+		System.out.println("Facts num: " + kieSession.getFactCount());
+		kieSession.insert(dto);
+		kieSession.insert(found);
+		int fired = kieSession.fireAllRules();
+		System.out.println("Rules: " + fired);
+//		kieSession.fireAllRules();
+		System.out.println("Facts num: " + kieSession.getFactCount());
+		kieSession.dispose();
+		return found;
+	}
 }

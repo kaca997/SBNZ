@@ -52,10 +52,7 @@ rule "Search recipes with ingredients for intermediate"
     	 						from recipes
     	 					)
 	then
-		for(Object r : $recipesFound){
-			Recipe rec = (Recipe) r;
-			$found.getRecipes().add(rec);
-		}
+		$found.getRecipes().addAll($recipesFound);
 end
 
 rule "Search recipes with ingredients for advanced"
@@ -73,10 +70,21 @@ rule "Search recipes with ingredients for advanced"
     	 						from recipes
     	 					)
 	then
-		for(Object r : $recipesFound){
-			Recipe rec = (Recipe) r;
-			$found.getRecipes().add(rec);
-		}
+		$found.getRecipes().addAll($recipesFound);
+end
+
+rule "Search recipes by name"
+	when 
+		$found : RecipeResponseDTO()
+		$recipeSearch : SearchRecipeDTO($name: name)
+		$recipesFound: ArrayList() from collect (
+    	 						Recipe(
+    	 							name.toLowerCase().contains($name.toLowerCase())
+    	 						)	 
+    	 						from recipes
+    	 					)
+	then
+		$found.getRecipes().addAll($recipesFound);
 end
 
 function boolean containsAll(Collection sourceColl, Collection targetColl){

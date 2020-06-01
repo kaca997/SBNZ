@@ -21,6 +21,7 @@ import { MainRecipesComponent } from './components/recipes/main-recipes/main-rec
 import { RecipeDetailsComponent } from './components/recipes/recipe-details/recipe-details.component';
 import { ReportsRecipeComponent } from './components/reports/reports-recipe/reports-recipe.component';
 import { AddRecipeComponent } from './components/recipes/add-recipe/add-recipe.component';
+import { NavbarComponent } from './shared/navbar/navbar.component';
 
 
 @NgModule({

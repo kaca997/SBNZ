@@ -6,6 +6,7 @@ import { Routes, RouterModule } from "@angular/router";
 import { AdminLayoutComponent } from "./layouts/admin-layout/admin-layout.component";
 import { LoginComponent } from './components/login/login.component';
 import { LoginGuard } from './guards/login-guard.service';
+import { ErrorPageComponent } from './components/error-page/error-page.component';
 
 const routes: Routes = [
   {
@@ -29,9 +30,11 @@ const routes: Routes = [
       }
     ]
   },
+  { path: 'not-found', component: ErrorPageComponent},
+  { path: '**', redirectTo: '/not-found'},
   {
     path: "**",
-    redirectTo: "dashboard"
+    redirectTo: "not-found"
   }
 ];
 

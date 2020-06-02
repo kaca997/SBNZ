@@ -23,6 +23,7 @@ import { ReportsRecipeComponent } from './components/reports/reports-recipe/repo
 import { AddRecipeComponent } from './components/recipes/add-recipe/add-recipe.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { ReportsUserComponent } from './components/reports/reports-user/reports-user.component';
+import { PrepareRecipeComponent } from './components/recipes/prepare-recipe/prepare-recipe.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { ReportsUserComponent } from './components/reports/reports-user/reports-
     MainRecipesComponent,
     RecipeDetailsComponent,
     ReportsRecipeComponent,
-    ReportsUserComponent
+    ReportsUserComponent,
+    PrepareRecipeComponent
   ],
   imports: [
     BrowserAnimationsModule,

@@ -9,6 +9,7 @@ import { RecipeDetailsComponent } from 'app/components/recipes/recipe-details/re
 import { ReportsRecipeComponent } from 'app/components/reports/reports-recipe/reports-recipe.component';
 import { RoleGuard } from 'app/guards/role-guard.service';
 import { ReportsUserComponent } from 'app/components/reports/reports-user/reports-user.component';
+import { PrepareRecipeComponent } from 'app/components/recipes/prepare-recipe/prepare-recipe.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -29,6 +30,10 @@ export const AdminLayoutRoutes: Routes = [
       data: { expectedRoles: 'ROLE_ADMIN|ROLE_REGISTEREDUSER' },
       canActivate: [RoleGuard],
       component: RecipeDetailsComponent },
+    { path: 'prepareRecipe',
+      data: { expectedRoles: 'ROLE_REGISTEREDUSER' },
+      canActivate: [RoleGuard],
+      component: PrepareRecipeComponent },
     { path: 'leastPopularRecipes',
       data: { expectedRoles: 'ROLE_ADMIN' },
       canActivate: [RoleGuard],

@@ -34,8 +34,8 @@ INSERT INTO `ingredients` (recipe_id, ingredients) VALUES
 INSERT INTO `steps` (recipe_id, steps) VALUES
 	(1, 'step1'),
 	(1, 'step 2'),
-	(1, 'step 4'),
 	(1, 'step 3'),
+	(1, 'step 4'),
 	(2, 'step'),
 	(3, 'step'),
 	(4, 'step'),

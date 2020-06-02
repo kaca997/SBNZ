@@ -23,5 +23,9 @@ public class GradeDTO {
 	public void setRecipeID(int recipeID) {
 		this.recipeID = recipeID;
 	}
+	@Override
+	public String toString() {
+		return "GradeDTO [steps=" + steps + ", recipeID=" + recipeID + "]";
+	}
 	
 }

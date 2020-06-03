@@ -18,6 +18,8 @@ public class RecipeDTO {
 	private List<String> ingredients;
 	
 	private List<String> steps;
+	
+	private String image;
 
 	public RecipeDTO() {
 		super();
@@ -71,12 +73,20 @@ public class RecipeDTO {
 	public void setIngredients(List<String> ingredients) {
 		this.ingredients = ingredients;
 	}
+	
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
 
 	@Override
 	public String toString() {
 		return "RecipeDTO [name=" + name + ", type=" + type + ", price=" + price + ", time=" + time + ", ingredients="
-				+ ingredients + ", steps=" + steps + "]";
+				+ ingredients + ", steps=" + steps + ", image=" + image + "]";
 	}
-	
 	
 }

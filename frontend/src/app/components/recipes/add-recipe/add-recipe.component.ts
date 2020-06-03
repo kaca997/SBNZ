@@ -31,6 +31,7 @@ export class AddRecipeComponent implements OnInit {
       time: [null, Validators.required],
       ingredient:[null],
       step:[null],
+      image: [null, Validators.required],
 		});
 	}
 
@@ -45,6 +46,7 @@ export class AddRecipeComponent implements OnInit {
     recipe.time = this.formAddRecipe.value.time;
     recipe.ingredients = this.ingredients;
     recipe.steps = this.steps;
+    recipe.image = this.formAddRecipe.value.image;
     console.log(recipe);
     this.recipeService.addRecipe(recipe).subscribe(
 			result => {

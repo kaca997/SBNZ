@@ -8,15 +8,15 @@ INSERT INTO `users` (dtype, id, username, password, knowledge, first_name, last_
 
 INSERT INTO `user_authority` (user_id, authority_id) VALUES (1, 1), (2, 2);
 
-INSERT INTO `recipe` (id, complexity, name, prepared, price, time_prep, rec_type) VALUES
-	(1, 'EASY', 'Recipe1', 7, 2, 15, 'SALAD'),
-	(2, 'MEDIUM', 'Recipe2', 10, 2, 15, 'SIDE_DISH'),
-	(3, 'HARD', 'Recipe3', 10, 2, 15, 'DESSERT'),
-	(4, 'EASY', 'Recipe4', 8, 2, 15, 'MAIN'),
-	(5, 'EASY', 'Recipe5', 9, 2, 15, 'MAIN'),
-	(6, 'EASY', 'Recipe6', 1, 2, 15, 'SIDE_DISH'),
-	(7, 'EASY', 'Recipe7', 0, 2, 15, 'SIDE_DISH'),
-	(8, 'MEDIUM', 'Recipe8', 0, 2, 15, 'SALAD');
+INSERT INTO `recipe` (id, complexity, name, prepared, price, time_prep, rec_type, imgURL) VALUES
+	(1, 'EASY', 'Recipe1', 7, 2, 15, 'SALAD', 'https://storcpdkenticomedia.blob.core.windows.net/media/recipemanagementsystem/media/recipe-media-files/recipes/retail/x17/2019_df_retail_triple-chocolate-truffle-bars_20430_cropped_760x580.jpg?ext=.jpg'),
+	(2, 'MEDIUM', 'Recipe2', 10, 2, 15, 'SIDE_DISH', 'https://storcpdkenticomedia.blob.core.windows.net/media/recipemanagementsystem/media/recipe-media-files/recipes/retail/x17/2019_df_retail_triple-chocolate-truffle-bars_20430_cropped_760x580.jpg?ext=.jpg'),
+	(3, 'HARD', 'Recipe3', 10, 2, 15, 'DESSERT', 'https://storcpdkenticomedia.blob.core.windows.net/media/recipemanagementsystem/media/recipe-media-files/recipes/retail/x17/2019_df_retail_triple-chocolate-truffle-bars_20430_cropped_760x580.jpg?ext=.jpg'),
+	(4, 'EASY', 'Recipe4', 8, 2, 15, 'MAIN', 'https://storcpdkenticomedia.blob.core.windows.net/media/recipemanagementsystem/media/recipe-media-files/recipes/retail/x17/2019_df_retail_triple-chocolate-truffle-bars_20430_cropped_760x580.jpg?ext=.jpg'),
+	(5, 'EASY', 'Recipe5', 9, 2, 15, 'MAIN', 'https://storcpdkenticomedia.blob.core.windows.net/media/recipemanagementsystem/media/recipe-media-files/recipes/retail/x17/2019_df_retail_triple-chocolate-truffle-bars_20430_cropped_760x580.jpg?ext=.jpg'),
+	(6, 'EASY', 'Recipe6', 1, 2, 15, 'SIDE_DISH', 'https://storcpdkenticomedia.blob.core.windows.net/media/recipemanagementsystem/media/recipe-media-files/recipes/retail/x17/2019_df_retail_triple-chocolate-truffle-bars_20430_cropped_760x580.jpg?ext=.jpg'),
+	(7, 'EASY', 'Recipe7', 0, 2, 15, 'SIDE_DISH', 'https://storcpdkenticomedia.blob.core.windows.net/media/recipemanagementsystem/media/recipe-media-files/recipes/retail/x17/2019_df_retail_triple-chocolate-truffle-bars_20430_cropped_760x580.jpg?ext=.jpg'),
+	(8, 'MEDIUM', 'Recipe8', 0, 2, 15, 'SALAD', 'https://storcpdkenticomedia.blob.core.windows.net/media/recipemanagementsystem/media/recipe-media-files/recipes/retail/x17/2019_df_retail_triple-chocolate-truffle-bars_20430_cropped_760x580.jpg?ext=.jpg');
 	
 INSERT INTO `ingredients` (recipe_id, ingredients) VALUES
 	(1, 'krastavac'),

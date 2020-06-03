@@ -37,6 +37,9 @@ public class Recipe {
 	@Column
 	private String name;
 	
+	@Column
+	private String imgURL;
+	
 	@Column(name = "rec_type")
 	@Enumerated(EnumType.STRING)
 	private RecipeType type;
@@ -67,7 +70,7 @@ public class Recipe {
 	}
 
 	public Recipe(String name, RecipeType type, Double price, Integer time,
-			List<String> ingredients, List<String> steps) {
+			List<String> ingredients, List<String> steps, String imgURL) {
 		super();
 		this.name = name;
 		this.type = type;
@@ -75,6 +78,8 @@ public class Recipe {
 		this.time = time;
 		this.ingredients = ingredients;
 		this.steps = steps;
+		this.imgURL = imgURL;
+		this.prepared = 0;
 	}
 
 	public Integer getId() {
@@ -149,10 +154,20 @@ public class Recipe {
 		this.prepared = prepared;
 	}
 
+	public String getImgURL() {
+		return imgURL;
+	}
+
+	public void setImgURL(String imgURL) {
+		this.imgURL = imgURL;
+	}
+
 	@Override
 	public String toString() {
-		return "Recipe [id=" + id + ", name=" + name + ", type=" + type + ", complexity=" + complexity + ", price="
-				+ price + ", time=" + time + ", prepared=" + prepared + ", ingredients=" + ingredients + ", steps="
-				+ steps + "]";
-	}	
+		return "Recipe [id=" + id + ", name=" + name + ", imgURL=" + imgURL + ", type=" + type + ", complexity="
+				+ complexity + ", price=" + price + ", time=" + time + ", prepared=" + prepared + ", ingredients="
+				+ ingredients + ", steps=" + steps + "]";
+	}
+
+	
 }

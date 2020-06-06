@@ -1,7 +1,5 @@
 package com.bsep.recipes.controller;
 
-import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bsep.recipes.dto.RecipeDTO;
 import com.bsep.recipes.dto.RecipeResponseDTO;
 import com.bsep.recipes.dto.SearchRecipeDTO;
+import com.bsep.recipes.dto.StepDTO;
 import com.bsep.recipes.model.Recipe;
 import com.bsep.recipes.service.RecipeService;
 
@@ -80,4 +79,30 @@ public class RecipeController {
 		}
 	}
 
+	
+	@RequestMapping(value = "/newStep", method = RequestMethod.POST, produces = "application/json")
+	public ResponseEntity<?> newStep(@RequestBody StepDTO step) {
+		try {
+			System.out.println(step);
+			String ok  = recipeService.newStep(step);
+			return new ResponseEntity<StepDTO>(step, HttpStatus.OK);
+		}
+		catch (Exception e) {	
+			e.printStackTrace();
+			return new ResponseEntity<String>("Error has accured!",HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@RequestMapping(value = "/prepare", method = RequestMethod.POST)
+	public ResponseEntity<?> prepare() {
+		try {
+			System.out.println("EJ");
+			recipeService.prepare();
+			return new ResponseEntity<String>("OK", HttpStatus.OK);
+		}
+		catch (Exception e) {	
+			e.printStackTrace();
+			return new ResponseEntity<String>("Error has accured!",HttpStatus.BAD_REQUEST);
+		}
+	}
 }

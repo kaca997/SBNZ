@@ -24,6 +24,9 @@ public class GradeService {
 	@Autowired
 	private RecipeRepository recipeRepo;
 	
+	@Autowired
+	private RecipeService recipeService;
+	
 	public Grade conutGrade(GradeDTO dto) {
 //		RegisteredUser ru = new RegisteredUser();
 //		ru.setId(3);
@@ -71,6 +74,7 @@ public class GradeService {
 		kieSession.fireAllRules();
 		System.out.println("Facts num: " + kieSession.getFactCount());
 		kieSession.dispose();
+		recipeService.done();
 		return newGrade;
 		}
 }

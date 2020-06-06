@@ -5,6 +5,7 @@ import com.bsep.recipes.model.Recipe;
 import com.bsep.recipes.model.RecipeComplexityType;
 import com.bsep.recipes.model.UserKnowledgeType;
 import com.bsep.recipes.model.Grade;
+import com.bsep.recipes.events.StepEvent;
 
 rule "Upgrade user to medium"
 	when 

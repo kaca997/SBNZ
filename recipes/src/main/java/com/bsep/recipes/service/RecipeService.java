@@ -1,4 +1,5 @@
 package com.bsep.recipes.service;
+import java.security.Security;
 import java.util.ArrayList;
 
 import org.kie.api.runtime.KieContainer;
@@ -10,11 +11,11 @@ import org.springframework.stereotype.Service;
 import com.bsep.recipes.dto.RecipeDTO;
 import com.bsep.recipes.dto.RecipeResponseDTO;
 import com.bsep.recipes.dto.SearchRecipeDTO;
+import com.bsep.recipes.dto.StepDTO;
+import com.bsep.recipes.events.StepEvent;
 import com.bsep.recipes.mapper.RecipeMapper;
 import com.bsep.recipes.model.Recipe;
-import com.bsep.recipes.model.RecipeComplexityType;
 import com.bsep.recipes.model.RegisteredUser;
-import com.bsep.recipes.model.UserKnowledgeType;
 import com.bsep.recipes.repository.RecipeRepository;
 
 
@@ -22,10 +23,13 @@ import com.bsep.recipes.repository.RecipeRepository;
 public class RecipeService {
 	
 	private final KieContainer kieContainer;
+	
+	private KieSession eventSession;
 
 	@Autowired
 	public RecipeService(KieContainer kieContainer) {
 		this.kieContainer = kieContainer;
+		this.eventSession = null;
 	}
 	
 	@Autowired
@@ -111,6 +115,14 @@ public class RecipeService {
 		return found;
 	}
 	
+	public void prepare() {
+		eventSession = kieContainer.newKieSession("eventsSession");
+	}
+	
+	public void done() {
+		eventSession.dispose();
+	}
+	
 	public RecipeResponseDTO findRecipesByName(SearchRecipeDTO dto) {
 		ArrayList<Recipe> recipes = (ArrayList<Recipe>) recipeRepo.findAll();
 		System.out.println(recipes);
@@ -126,5 +138,24 @@ public class RecipeService {
 		System.out.println("Facts num: " + kieSession.getFactCount());
 		kieSession.dispose();
 		return found;
+	}
+	
+	public String newStep(StepDTO step) {
+		System.out.println("Facts num: " + eventSession.getFactCount());
+		RegisteredUser ru = (RegisteredUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		StepEvent event = new StepEvent(ru.getId(), step.getRecipeID(), step.getStep(), step.getSuccess());
+		eventSession.insert(event);
+//		step.setStep("s");
+//		kieSession.insert(step);
+//		kieSession.insert(new StepEvent(1, 1, "sa", false));
+//		kieSession.insert(new StepEvent(1, 1, "saa", false));
+		int fired = eventSession.fireAllRules();
+		System.out.println("Rules: " + fired);
+//		kieSession.fireAllRules();
+//		kieSession.insert(new StepEvent(1, 1, "saa", false));
+//		int fired2 = kieSession.fireAllRules();
+		System.out.println("Facts num: " + eventSession.getFactCount());
+//		eventSession.dispose();
+		return "ok";
 	}
 }

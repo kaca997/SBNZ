@@ -1,0 +1,65 @@
+package events;
+
+import com.bsep.recipes.events.StepEvent;
+import com.bsep.recipes.events.BadPreparationEvent;
+import com.bsep.recipes.events.GoodPreparationEvent;
+import com.bsep.recipes.dto.StepDTO;
+import java.util.List;
+
+
+declare window BadWindow
+    StepEvent()
+        over window:length( 2 )
+end
+
+declare window GoodWindow
+    StepEvent()
+        over window:length( 3 )
+end
+
+
+rule "Bad preparation event for 2 consecutive unsuccessful steps"
+    when
+        $stepEvent: StepEvent($userID: userID, $recipeID: recipeID, success == false) 
+        $n: Number(intValue >= 2) from accumulate(
+            $s: StepEvent(
+            userID == $userID,
+            recipeID == $recipeID, 
+            success==false)
+            from window BadWindow,
+            count($s)
+        )
+         not(BadPreparationEvent(userID == $userID, recipeID == $recipeID))
+    then
+    	insert(new BadPreparationEvent($userID, $recipeID));
+end
+
+rule "Good preparation event for 3 consecutive unsuccessful steps"
+    when
+        $stepEvent: StepEvent($userID: userID, $recipeID: recipeID, success == true) 
+        $n: Number(intValue >= 3) from accumulate(
+            $s: StepEvent(
+            userID == $userID,
+            recipeID == $recipeID,
+            success == true)
+            from window GoodWindow,
+            count($s)
+        )
+        not(GoodPreparationEvent(userID == $userID, recipeID == $recipeID))
+    then
+    	insert(new GoodPreparationEvent($userID, $recipeID));
+end
+
+rule "Good preparation event"
+	when
+		$goodPreparation: GoodPreparationEvent($userID: userID, $recileID: recipeID)
+	then
+		System.out.println("Good preparing");
+end
+
+rule "Bad preparation event"
+	when
+		$goodPreparation: BadPreparationEvent($userID: userID, $recileID: recipeID)
+	then
+		System.out.println("Bad preparing");
+end

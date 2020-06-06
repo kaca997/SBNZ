@@ -1,7 +1,7 @@
 package com.bsep.recipes.dto;
 
 public class StepDTO {
-	Integer number;
+	Integer recipeID;
 	String step;
 	Boolean success;
 	public StepDTO() {
@@ -19,15 +19,15 @@ public class StepDTO {
 	public void setSuccess(Boolean success) {
 		this.success = success;
 	}
-	public Integer getNumber() {
-		return number;
+	public Integer getRecipeID() {
+		return recipeID;
 	}
-	public void setNumber(Integer number) {
-		this.number = number;
+	public void setRecipeID(Integer recipeID) {
+		this.recipeID = recipeID;
 	}
 	@Override
 	public String toString() {
-		return "StepDTO [number=" + number + ", step=" + step + ", success=" + success + "]";
+		return "StepDTO [recipeID=" + recipeID + ", step=" + step + ", success=" + success + "]";
 	}
 	
 	

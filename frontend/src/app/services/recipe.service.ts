@@ -27,4 +27,14 @@ searchRecipeByName(recipeData: any): Observable<any> {
   let searchRecipeURL =  "http://localhost:8080/searchRecipeByName";
   return this.http.post(searchRecipeURL, recipeData, {headers: this.headers});
   }
+
+newStep(stepData: any): Observable<any> {
+  let stepDataURL =  "http://localhost:8080/newStep";
+  return this.http.post(stepDataURL, stepData, {headers: this.headers});
+  }
+
+prepare(): Observable<any> {
+  let prepareURL =  "http://localhost:8080/prepare";
+  return this.http.post(prepareURL, {headers: this.headers, responseType: 'text'} );
+  }
 }

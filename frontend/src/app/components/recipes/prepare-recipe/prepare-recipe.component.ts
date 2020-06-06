@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from 'app/services/data.service';
-import { AuthenticationService } from 'app/services/auth.service';
+import { RecipeService } from 'app/services/recipe.service';
 import { GradeService } from 'app/services/grade.service';
 import { ToastrService } from 'ngx-toastr';
 
@@ -13,31 +13,55 @@ export class PrepareRecipeComponent implements OnInit {
   stepsDone: Array<any>=[];
   recipe: any;
   count: number = 0;
-  constructor(private data:DataService, private gradeService: GradeService, private toastr: ToastrService) { }
+  constructor(private data:DataService, private gradeService: GradeService, private toastr: ToastrService, private recipeService:RecipeService) { }
 
   ngOnInit(): void {
     this.data.recipeDetails.subscribe(recipe => this.recipe = recipe);
     console.log(this.recipe);
+    this.recipeService.prepare().subscribe(
+      recipe =>{
+      console.log("OK");
+      },
+      error =>{
+        console.log(error);
+      }
+    )
   }
 
   done(step, index){
     const stepDetails: any = {};
-    stepDetails.number = index;
+    stepDetails.recipeID = this.recipe.id;
     stepDetails.step = step;
     stepDetails.success = true;
     this.stepsDone.push(stepDetails);
     this.count = this.count+1;
-    console.log(this.stepsDone)
+    console.log(this.stepsDone);
+    this.recipeService.newStep(stepDetails).subscribe(
+			result => {
+        console.log("AAAAAAAA");
+        console.log(result);
+			},
+			error => {
+        console.log("ERRRRR");
+				console.log(error);
+      })
   }
 
   fail(step, index){
     const stepDetails: any = {};
-    stepDetails.number = index;
+    stepDetails.recipeID = this.recipe.id;
     stepDetails.step = step;
     stepDetails.success = false;
     this.stepsDone.push(stepDetails);
     this.count += 1;
-    console.log(this.stepsDone)
+    console.log(this.stepsDone);
+    this.recipeService.newStep(stepDetails).subscribe(
+			result => {
+        console.log(result);
+			},
+			error => {
+				console.log(error);
+      })
   }
   recipeDone(){
     const recipeData: any = {};

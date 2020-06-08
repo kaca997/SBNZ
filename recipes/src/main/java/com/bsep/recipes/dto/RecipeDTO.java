@@ -24,6 +24,7 @@ public class RecipeDTO {
 	public RecipeDTO() {
 		super();
 		steps = new ArrayList<String>();
+		ingredients = new ArrayList<String>();
 	}
 
 	public String getName() {

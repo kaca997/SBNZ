@@ -25,9 +25,12 @@ rule "Grade 5"
 	then
 		$grade.setGrade(5);
 		$grade.setUser($ru);
+		$grade.setRecipe($recipe);
 		$ru.getGrades().add($grade);
+		$recipe.setPrepared($recipe.getPrepared()+1);
     	update($grade);
     	update($ru);
+    	update($recipe);
 end
 
 rule "Grade 4"
@@ -48,9 +51,12 @@ rule "Grade 4"
 	then
 		$grade.setGrade(4);
 		$grade.setUser($ru);
+		$grade.setRecipe($recipe);
 		$ru.getGrades().add($grade);
+		$recipe.setPrepared($recipe.getPrepared()+1);
     	update($grade);
     	update($ru);
+    	update($recipe);
 end
 
 rule "Grade 3"
@@ -70,9 +76,13 @@ rule "Grade 3"
     	 					)
 	then
 		$grade.setGrade(3);
+		$grade.setRecipe($recipe);
+		$grade.setRecipe($recipe);
 		$ru.getGrades().add($grade);
+		$recipe.setPrepared($recipe.getPrepared()+1);
     	update($grade);
     	update($ru);
+    	update($recipe);
 end
 
 rule "Grade 2"
@@ -93,9 +103,12 @@ rule "Grade 2"
 	then
 		$grade.setGrade(2);
 		$grade.setUser($ru);
+		$grade.setRecipe($recipe);
 		$ru.getGrades().add($grade);
+		$recipe.setPrepared($recipe.getPrepared()+1);
     	update($grade);
     	update($ru);
+    	update($recipe);
 end
 
 rule "Grade 1"
@@ -116,7 +129,10 @@ rule "Grade 1"
 	then
 		$grade.setGrade(1);
 		$grade.setUser($ru);
+		$grade.setRecipe($recipe);
 		$ru.getGrades().add($grade);
+		$recipe.setPrepared($recipe.getPrepared()+1);
     	update($grade);
     	update($ru);
+    	update($recipe);
 end

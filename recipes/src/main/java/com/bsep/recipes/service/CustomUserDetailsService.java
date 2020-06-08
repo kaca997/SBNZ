@@ -65,6 +65,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 		if(u != null) {
 			throw new InvalidDataException("Username already taken!"); 
 		}
+		dto.setPassword(encodePassword(dto.getPassword()));
 		RegisteredUser ru = RegisteredUserMapper.toRegisteredUser(dto);
 		List<Authority> authorities = new ArrayList<Authority>();
 		Authority a = authRepository.findById(2).get();

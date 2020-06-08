@@ -1,5 +1,25 @@
 <div class="containter-fluid">
     <div class="row">
+        <div class="col-sm-4 col-lg-3" *ngFor="let bestRecipe of bestRecipes">
+            <div class="card">
+                <div class="card-body" style="border-color: gold; border-width: 2%; border-style: solid; border-radius: 15px;">
+                    <div>
+                        <img style='border-radius: 5px;' [src]="bestRecipe.imgURL">
+                        <p><strong>Name:</strong> {{bestRecipe?.name}}</p>
+                        <p><b>Price:</b> {{bestRecipe?.price}} </p>
+                        <p><b>Time:</b> {{bestRecipe?.time}} </p>
+                        <p><b>Type:</b> {{bestRecipe?.type}} </p>
+                        <p><b>Complexity:</b> {{bestRecipe?.complexity}} </p>
+                    </div>
+                    <div style="text-align: center;">
+                        <button class="btn btn-round"
+                            title="Details" (click)="details(bestRecipe)">
+                                Details
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="col-sm-4 col-lg-3" *ngFor="let recipe of recipes">
             <div class="card">
                 <div class="card-body">
@@ -9,6 +29,7 @@
                         <p><b>Price:</b> {{recipe?.price}} </p>
                         <p><b>Time:</b> {{recipe?.time}} </p>
                         <p><b>Type:</b> {{recipe?.type}} </p>
+                        <p><b>Complexity:</b> {{recipe?.complexity}} </p>
                     </div>
                     <div style="text-align: center;">
                         <button class="btn btn-round"
@@ -20,7 +41,7 @@
             </div>
         </div>
     </div>
-    <div *ngIf="count == 0" style="text-align: center;">
+    <div *ngIf="countRecipes == 0 && countBestRecipes==0" style="text-align: center;">
         <h4 class="empty-list" >There are no recipes found.</h4>
     </div>
 </div>

@@ -16,6 +16,7 @@
                     <p><b>Price:</b> {{recipe?.price}} </p>
                     <p><b>Time:</b> {{recipe?.time}} </p>
                     <p><b>Type:</b> {{recipe?.type}} </p>
+                    <p><b>Complexity:</b> {{recipe?.complexity}} </p>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -37,7 +38,7 @@
             </div>
         </div>
         </div>
-        <div *ngIf="!authService.isAdmin()" class="row">
+        <div *ngIf="!authService.isAdmin() && !name" class="row">
             <div class="col-md-3"></div>
             <div class="col-md-6 text-center">
               <button class="btn btn-round btn-success" (click)="prepareRecipe()">Prepare recipe</button>

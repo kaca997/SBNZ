@@ -9,105 +9,272 @@ import com.bsep.recipes.model.Recipe;
 import com.bsep.recipes.model.RecipeComplexityType;
 import com.bsep.recipes.model.UserKnowledgeType;
 import com.bsep.recipes.model.Grade;
-import com.bsep.recipes.model.Ingredient;
 import com.bsep.recipes.dto.SearchRecipeDTO;
 import com.bsep.recipes.dto.RecipeResponseDTO;
 
 
-rule "Search recipes with ingredients for beginers"
-	when 
+function boolean containsAny(List sourceList, List targetList){
+	for(Object ingr1 : sourceList){
+	   for(Object ingr2: targetList){
+	       if(ingr1.equals(ingr2)){
+	           return true;
+	       }
+	    }
+	}
+	return false;
+}
+
+function boolean aa(){
+	return true;
+}
+
+rule "Recipe can't contain any ingredient that user doesn't like"
+	salience 10
+    lock-on-active
+    when
+    	$recipeSearch : SearchRecipeDTO(name == null)  
 		$found : RecipeResponseDTO()
-		$recipeSearch : SearchRecipeDTO($ingredientss: ingredients, $time: time, $price:price, $ingredientss!=null)
-		$user : RegisteredUser($likes: likes, $hates: hates, knowledge == UserKnowledgeType.BEGINER)
-		$recipesFound: ArrayList() from collect (
-    	 						Recipe(
-    	 							containsAll(ingredients, $ingredientss),
- 									!containsAny(ingredients, $hates),
-    	 							time<=$time,
-    	 							price<=$price,
-    	 							complexity == RecipeComplexityType.EASY	
-    	 						)	 
-    	 						from recipes
-    	 					)
+		$user : RegisteredUser($hates: hates)
+		$recipesFound: ArrayList() from accumulate (
+	    	 						$r: Recipe(
+	 									$ingredients: ingredients
+	    	 						)from recipes,
+	    	 						init(List<Recipe> rec = new ArrayList();),
+						            action(	boolean check = false;
+						            		for(Object ingr: $ingredients){
+						                    if($hates.contains(ingr)){
+						                    	check = true;
+						                        break;
+						                    	}
+						                    }if(!check){
+						                    	rec.add($r);
+						                    }
+						                    ),
+						            result(rec)
+	    	 					)	
 	then
-		for(Object r : $recipesFound){
-			Recipe rec = (Recipe) r;
-			$found.getRecipes().add(rec);
+		$found.setRecipes($recipesFound);
+		update($found)
+		System.out.println(recipes);
+		System.out.println("hate");
+end
+
+rule "Recipes for beginers"
+	salience 9
+    lock-on-active
+    when 
+		$found : RecipeResponseDTO($recipes: recipes)
+		$user : RegisteredUser(knowledge == UserKnowledgeType.BEGINER)
+		$recipesFound: ArrayList() from collect (
+	    	 						Recipe(
+	 									complexity == RecipeComplexityType.EASY
+	    	 						)from $recipes
+    	 						)
+	then
+		$found.setRecipes($recipesFound);
+		update($found)
+		System.out.println($found);
+		System.out.println("beginer");
+end
+
+rule "Recipes for intermediate users"
+	salience 9
+    lock-on-active
+    when 
+		$found : RecipeResponseDTO($recipes: recipes)
+		$user : RegisteredUser(knowledge == UserKnowledgeType.INTERMEDIATE)
+		$recipesFound: ArrayList() from collect (
+	    	 							Recipe(
+	 										complexity != RecipeComplexityType.HARD
+	    	 							)from $recipes
+    	 							)
+	then
+		$found.setRecipes($recipesFound);
+		update($found)
+		System.out.println($found);
+		System.out.println("medium");
+end
+
+rule "Recipe can't be more expensive then user's budget"
+	salience 8
+    lock-on-active
+    when 
+		$found : RecipeResponseDTO($recipes: recipes)
+		$recipeSearch : SearchRecipeDTO($price:price, price > 0, name == null)
+		$recipesFound: ArrayList() from collect (
+    	 							Recipe(
+ 										price<=$price
+    	 							)from $recipes
+    	 						)
+	then
+		$found.setRecipes($recipesFound);
+		update($found)
+		System.out.println($found);
+		System.out.println("budget");
+end
+
+
+rule "Recipe can't take more time for preparation then user's time available"
+	salience 7
+    lock-on-active
+    when 
+		$found : RecipeResponseDTO($recipes: recipes)
+		$recipeSearch : SearchRecipeDTO($time: time, time>0, name == null)
+		$recipesFound: ArrayList() from collect (
+    	 							Recipe(
+ 										time<=$time
+    	 							)from $recipes
+    	 						)
+	then
+		$found.setRecipes($recipesFound);
+		update($found)
+		System.out.println($found);
+		System.out.println("time");
+end
+
+rule "Recipe can't have ingredients that user doesn't have"
+	salience 6
+    lock-on-active
+    when 
+		$found : RecipeResponseDTO($recipes: recipes)
+		$recipeSearch : SearchRecipeDTO($userIngredients: ingredients, $userIngredients.size()>0)
+		$recipesFound: List() from accumulate (
+	    	 						$r: Recipe(
+	 									$recipeIngredients: ingredients
+	    	 						)from $recipes,
+	    	 						init(List<Recipe> rec = new ArrayList();),
+						            action(	boolean check = false;
+						            		for(Object ingr: $recipeIngredients){
+						                    if(!($userIngredients.contains(ingr))){
+						                    	check = true;
+						                        break;
+						                    	}
+						                    }if(!check){
+						                    	rec.add($r);
+						                    }
+						                    ),
+						            result(rec)
+	    	 					)	 		
+	then
+		$found.setRecipes($recipesFound);
+		update($found)
+		System.out.println($found);
+		System.out.println("ingredients");
+end
+
+rule "Search recipe by type"
+	salience 5
+    lock-on-active
+    when 
+		$found : RecipeResponseDTO($recipes: recipes)
+		$recipeSearch : SearchRecipeDTO($types: types, $types.size()>0)
+		$recipesFound: ArrayList() from collect (
+    	 							Recipe(
+ 										type memberOf $types
+    	 							)from $recipes
+    	 						)
+	then
+		$found.setRecipes($recipesFound);
+		update($found)
+		System.out.println($found);
+		System.out.println("type");
+end
+
+rule "Best recipe suggestion if all recipe's ingredients are those that user likes"
+	salience 4
+    lock-on-active
+    when 
+   		$recipeSearch : SearchRecipeDTO(name == null) 
+		$found : RecipeResponseDTO($recipes: recipes)
+		$user : RegisteredUser($likes: likes, likes.size()>0)
+		$bestRecipes: List() from accumulate (
+	    	 						$r: Recipe(
+	 									$likes.containsAll(ingredients)
+	    	 						)from $recipes,
+	    	 						collectList($r)
+	    	 					)	 					
+	   	$otherRecipes: List() from accumulate(
+	   								$r : Recipe(
+	   									!($bestRecipes.contains($r))
+	   								)from $recipes,
+	   								collectList($r)
+	    	 					)
+	then
+		$found.setRecipes($otherRecipes);
+		if($bestRecipes.size() >=1){
+			$found.setBestRecipes($bestRecipes);
+			System.out.println($bestRecipes);
+			System.out.println("besttt");
+			System.out.println($found);
+			drools.halt();
 		}
+		System.out.println("besttt");
+		
 end
 
-rule "Search recipes with ingredients for intermediate"
-	when 
-		$found : RecipeResponseDTO()
-		$recipeSearch : SearchRecipeDTO($ingredientss: ingredients, $time: time, $price:price, $ingredientss!=null)
-		$user : RegisteredUser($likes: likes, $hates: hates, knowledge == UserKnowledgeType.INTERMEDIATE)
-		$recipesFound: ArrayList() from collect (
-    	 						Recipe(
-    	 							containsAll(ingredients, $ingredientss),
- 									!containsAny(ingredients, $hates),
-    	 							time<=$time,
-    	 							price<=$price,
-    	 							complexity != RecipeComplexityType.HARD	
-    	 						)	 
-    	 						from recipes
-    	 					)
-	then
-		$found.getRecipes().addAll($recipesFound);
-end
 
-rule "Search recipes with ingredients for advanced"
-	when 
-		$found : RecipeResponseDTO()
-		$recipeSearch : SearchRecipeDTO($ingredientss: ingredients, $time: time, $price:price, $ingredientss!=null)
-		$user : RegisteredUser($likes: likes, $hates: hates, knowledge == UserKnowledgeType.ADVANCED)
-		$recipesFound: ArrayList() from collect (
+rule "Best recipe suggestion for recipes that contain the most ingredients that user likes"
+	salience 3
+    lock-on-active
+    when
+    	$recipeSearch : SearchRecipeDTO(name == null) 
+		$found : RecipeResponseDTO($recipes: recipes, bestRecipes.size()== 0 || bestRecipes== null)
+		$user : RegisteredUser($likes: likes, likes.size()>0)
+		$maksCount: Integer() from accumulate (
     	 						Recipe(
-    	 							containsAll(ingredients, $ingredientss),
- 									!containsAny(ingredients, $hates),
-    	 							time<=$time,
-    	 							price<=$price	
-    	 						)	 
-    	 						from recipes
+ 									$ingredients: ingredients
+    	 						)from $recipes,
+    	 						init(int maxCount = 0;),
+					            action(	int count = 0;
+					            		for(Object ingr: $ingredients){
+					                    if($likes.contains(ingr)){
+					                    	count+=1;
+					                    	}
+					                    }if(count>maxCount){
+					                    	maxCount= count;
+					                    }
+					                    ),
+					            result(maxCount)
     	 					)
+		$bestRecipes: ArrayList() from accumulate (
+    	 						$r: Recipe(
+ 									$ingredients: ingredients
+    	 						)from $recipes,
+    	 						init(List<Recipe> rec = new ArrayList();),
+					            action(	int count = 0;
+					            		for(Object ingr: $ingredients){
+					                    if($likes.contains(ingr)){
+					                    	count += 1;
+					                    	}
+					                    }if(count == $maksCount){
+					                    	rec.add($r);
+					                    }
+					                    ),
+					            result(rec)
+    	 					)		
+	   	$otherRecipes: ArrayList() from collect(
+	   								Recipe(
+	   									!($bestRecipes.contains(this))
+	   								)from $recipes
+	    	 					)	
 	then
-		$found.getRecipes().addAll($recipesFound);
+		$found.setRecipes($otherRecipes);
+		$found.setBestRecipes($bestRecipes);
+		System.out.println($bestRecipes);
+		System.out.println("besttt2");
+		System.out.println($found);
 end
 
 rule "Search recipes by name"
 	when 
 		$found : RecipeResponseDTO()
-		$recipeSearch : SearchRecipeDTO($name: name)
+		$recipeSearch : SearchRecipeDTO($name: name, name != null)
 		$recipesFound: ArrayList() from collect (
-    	 						Recipe(
-    	 							name.toLowerCase().contains($name.toLowerCase())
-    	 						)	 
-    	 						from recipes
-    	 					)
+    	 							Recipe(
+    	 								name.toLowerCase().contains($name.toLowerCase())
+    	 							)from recipes
+    	 						)
 	then
 		$found.getRecipes().addAll($recipesFound);
+		System.out.println("name");
 end
-
-function boolean containsAll(Collection sourceColl, Collection targetColl){
-	ArrayList sourceList = new ArrayList( sourceColl );
-	ArrayList targetList = new ArrayList( targetColl );
-    int size = targetList.size();
-    boolean s = false;
-    if(targetList.containsAll(sourceList)){
-    	s = true;
-    }
-    return s;
-}
-
-function boolean containsAny(Collection sourceCol, Collection targetCol){
-	ArrayList sourceLi = new ArrayList( sourceCol );
-	ArrayList targetLi = new ArrayList( targetCol );
-	System.out.println("source"+ sourceLi);
-    System.out.println("target"+ targetLi);
-    int sizee = sourceLi.size();
-    sourceLi.retainAll(targetLi);
-    boolean ss = false;
-    if(sourceLi.size() != 0){
-    	ss = true;
-    }
-    return ss;
-}

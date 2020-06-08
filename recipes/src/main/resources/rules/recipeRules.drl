@@ -7,33 +7,37 @@ import com.bsep.recipes.model.RecipeComplexityType;
 rule "New easy recipe"
 	when 
 		$recipeDTO: RecipeDTO(time<45 , steps.size()<6)
-		$recipe : Recipe()
+		$recipe : Recipe(complexity==null)
 	then
 		$recipe.setComplexity(RecipeComplexityType.EASY);
+		update($recipe)
 end
 
 rule "New hard recipe"
 	when 
-		$recipeDTO: RecipeDTO(time>90 || steps.size()>8)
-		$recipe : Recipe()
+		$recipeDTO: RecipeDTO(time>90, steps.size()>8)
+		$recipe : Recipe(complexity==null)
 	then
 		$recipe.setComplexity(RecipeComplexityType.HARD);
+		update($recipe)
 end
 
 rule "New medium recipe"
 	when 
 		$recipeDTO: RecipeDTO(time<=90, time>=45)
-		$recipe : Recipe()
+		$recipe : Recipe(complexity==null)
 	then
 		System.out.println("HEJ");
 		$recipe.setComplexity(RecipeComplexityType.MEDIUM);
+		update($recipe)
 end
 
 rule "New medium recipe2"
 	when 
 		$recipeDTO: RecipeDTO(steps.size()<=8, steps.size()>=6)
-		$recipe : Recipe()
+		$recipe : Recipe(complexity==null)
 	then
 		System.out.println("HEJ2");
 		$recipe.setComplexity(RecipeComplexityType.MEDIUM);
+		update($recipe)
 end

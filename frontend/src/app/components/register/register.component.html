@@ -103,12 +103,20 @@
             <div class="col-md-3"></div>
             <div class="col-md-3">
                 <ul *ngFor="let like of likes">
-                    <li>{{like}}</li>
+                  <li>{{like | titlecase}} 
+                    <button class="btn btn-danger btn-sm" style="border-radius: 50%" (click)="removeIngredientLike(like)">
+                       <i class="fa fa-times" style="position: relative;" aria-hidden="true"></i>
+                    </button>
+                 </li>
                 </ul>
             </div>
             <div class="col-md-3">
                 <ul *ngFor="let hate of hates">
-                    <li>{{hate}}</li>
+                  <li>{{hate | titlecase}} 
+                    <button class="btn btn-danger btn-sm" style="border-radius: 50%" (click)="removeIngredientHate(hate)">
+                       <i class="fa fa-times" style="position: relative;" aria-hidden="true"></i>
+                    </button>
+                 </li>
                 </ul>
             </div>
           </div>

@@ -119,6 +119,8 @@ export class NavbarComponent implements OnInit{
           //this.toastr.success("Success");
           console.log("result",result.recipes);
           this.dataService.changeRecipes(result.recipes);
+          this.dataService.changeBestRecipes(result.bestRecipes);
+          this.dataService.changeSearchByName(true);
           this.router.navigate(['foundRecipes']);
         },
         error => {

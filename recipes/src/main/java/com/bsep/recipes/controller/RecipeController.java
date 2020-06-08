@@ -58,6 +58,7 @@ public class RecipeController {
 		System.out.println(dto);
 		try {
 			RecipeResponseDTO found = recipeService.findRecipes(dto);
+			System.out.println(found.getBestRecipes());
 			return new ResponseEntity<RecipeResponseDTO>(found, HttpStatus.OK);
 		}
 		catch (Exception e) {	

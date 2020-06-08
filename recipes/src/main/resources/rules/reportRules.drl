@@ -17,7 +17,7 @@ rule "Best users"
 	when
 		$foundUsers: ArrayList()
 		$userList: UserReportsDTO()
-		$best1: ArrayList() from collect (
+		$best1: List() from collect (
     	 						RegisteredUser(
     	 							knowledge == UserKnowledgeType.ADVANCED,
     	 							countGrades(grades)

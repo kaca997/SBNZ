@@ -12,9 +12,8 @@ import { RecipeService } from 'app/services/recipe.service';
 export class AddRecipeComponent implements OnInit {
 
   formAddRecipe: FormGroup;
-  ingredients: Array<string> = [];
-  steps: Array<string> = [];
-  stepCnt: number = 0;
+  ingredients: Set<string> = new Set();
+  steps: Set<string> = new Set();
   noSteps: boolean = true;
   noIngredients: boolean = true;
 
@@ -27,8 +26,8 @@ export class AddRecipeComponent implements OnInit {
 		this.formAddRecipe = this.fb.group({
 			name: [null, Validators.required],
       type: [null, Validators.required],
-      price: [null, Validators.required],
-      time: [null, Validators.required],
+      price: [null, [Validators.required, Validators.min(0)]],
+      time: [null, [Validators.required, Validators.pattern("[0-9]+")]],
       ingredient:[null],
       step:[null],
       image: [null, Validators.required],
@@ -44,8 +43,8 @@ export class AddRecipeComponent implements OnInit {
     recipe.type = this.formAddRecipe.value.type;
     recipe.price = this.formAddRecipe.value.price;
     recipe.time = this.formAddRecipe.value.time;
-    recipe.ingredients = this.ingredients;
-    recipe.steps = this.steps;
+    recipe.ingredients = Array.from(this.ingredients.values());
+    recipe.steps =  Array.from(this.steps.values());
     recipe.image = this.formAddRecipe.value.image;
     console.log(recipe);
     this.recipeService.addRecipe(recipe).subscribe(
@@ -60,14 +59,23 @@ export class AddRecipeComponent implements OnInit {
     )
   }
   addIngredient(){
-    this.ingredients.push(this.formAddRecipe.value.ingredient);
+    this.ingredients.add((this.formAddRecipe.value.ingredient).toLowerCase());
     console.log(this.ingredients);
     this.noIngredients = false;
   }
+
+  removeIngredient(ingr){
+    this.ingredients.delete(ingr);
+    console.log(this.ingredients);
+  }
   addStep(){
-    this.stepCnt = this.stepCnt+1;
-    this.steps.push(this.formAddRecipe.value.step);
+    this.steps.add((this.formAddRecipe.value.step).toLowerCase());
     this.noSteps = false;
     console.log(this.ingredients);
+  }
+
+  removeStep(step){
+    this.steps.delete(step);
+    console.log(this.steps);
   }
 }

@@ -52,6 +52,7 @@ export class RegisterComponent implements OnInit {
 		this.authenticationService.register(user).subscribe(
 			result => {
 				this.toastr.success("Registration successfull");
+				this.router.navigate(['login'])
 			},
 			error => {
 				console.log(error);
@@ -61,11 +62,22 @@ export class RegisterComponent implements OnInit {
 
   }
   addIngredientLike(){
-    this.likes.add(this.formReg.value.like);
+    this.likes.add((this.formReg.value.like).toLowerCase());
     console.log(this.likes);
   }
+
+  removeIngredientLike(ingr){
+    this.likes.delete(ingr);
+    console.log(this.likes);
+  }
+
   addIngredientHate(){
-    this.hates.add(this.formReg.value.hate);
+    this.hates.add((this.formReg.value.hate).toLowerCase());
+    console.log(this.hates);
+  }
+
+  removeIngredientHate(ingr){
+    this.hates.delete(ingr);
     console.log(this.hates);
   }
 }

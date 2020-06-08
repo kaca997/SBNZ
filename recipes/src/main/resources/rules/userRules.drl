@@ -23,7 +23,6 @@ rule "Upgrade user to medium"
 	then
 		System.out.println($grades);
 		System.out.println($n);
-		System.out.println("JOOOOO");
 		$user.setKnowledge(UserKnowledgeType.INTERMEDIATE);
 end
 

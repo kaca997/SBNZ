@@ -10,10 +10,12 @@ import { Router } from '@angular/router';
 })
 export class RecipeDetailsComponent implements OnInit {
   recipe: any;
+  name : any;
   constructor(private data:DataService, private authService: AuthenticationService, private router: Router) { }
 
   ngOnInit(): void {
     this.data.recipeDetails.subscribe(recipe => this.recipe = recipe);
+    this.data.name.subscribe(name => this.name = name);
     console.log(this.recipe);
   }
 

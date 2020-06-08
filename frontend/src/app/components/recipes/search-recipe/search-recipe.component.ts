@@ -13,7 +13,7 @@ import { DataService } from 'app/services/data.service';
 export class SearchRecipeComponent implements OnInit {
 
   formSearchRecipes: FormGroup;
-  ingredients: Array<string> = [];
+  ingredients: Set<string> = new Set();
   allTypes: Array<any> = [
     { name: 'Salad', value: 'SALAD' },
     { name: 'Side dish', value: 'SIDE_DISH' },
@@ -29,8 +29,8 @@ export class SearchRecipeComponent implements OnInit {
     private dataService: DataService,
 	) {
 		this.formSearchRecipes = this.fb.group({
-      price: [null, Validators.required],
-      time: [null, Validators.required],
+      price: [null, [Validators.min(0)]],
+      time: [null, [Validators.pattern("[0-9]+")]],
       ingredient:[null],
       recipeType: this.fb.array([])
 		});
@@ -60,14 +60,17 @@ export class SearchRecipeComponent implements OnInit {
 		const recipe: any = {};
     recipe.price = this.formSearchRecipes.value.price;
     recipe.time = this.formSearchRecipes.value.time;
-    recipe.ingredients = this.ingredients;
+    recipe.ingredients =  Array.from(this.ingredients.values());
     recipe.types = this.formSearchRecipes.value.recipeType;
     console.log(recipe);
     this.recipeService.searchRecipe(recipe).subscribe(
 			result => {
         //this.toastr.success("Success");
         console.log("result",result.recipes);
+        console.log(result);
         this.dataService.changeRecipes(result.recipes);
+        this.dataService.changeBestRecipes(result.bestRecipes);
+        this.dataService.changeSearchByName(false);
         this.router.navigate(['foundRecipes']);
 			},
 			error => {
@@ -77,7 +80,11 @@ export class SearchRecipeComponent implements OnInit {
     )
   }
   addIngredient(){
-    this.ingredients.push(this.formSearchRecipes.value.ingredient);
+    this.ingredients.add((this.formSearchRecipes.value.ingredient).toLowerCase());
+    console.log(this.ingredients);
+  }
+  removeIngredient(ingr){
+    this.ingredients.delete(ingr);
     console.log(this.ingredients);
   }
 }

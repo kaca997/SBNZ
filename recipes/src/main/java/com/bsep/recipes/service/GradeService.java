@@ -10,6 +10,7 @@ import com.bsep.recipes.model.Grade;
 import com.bsep.recipes.model.Recipe;
 import com.bsep.recipes.model.RegisteredUser;
 import com.bsep.recipes.repository.RecipeRepository;
+import com.bsep.recipes.repository.UserRepository;
 
 @Service
 public class GradeService {
@@ -25,7 +26,11 @@ public class GradeService {
 	private RecipeRepository recipeRepo;
 	
 	@Autowired
+	private UserRepository userRepo;
+	
+	@Autowired
 	private RecipeService recipeService;
+	
 	
 	public Grade conutGrade(GradeDTO dto) {
 //		RegisteredUser ru = new RegisteredUser();
@@ -61,7 +66,8 @@ public class GradeService {
 //		gradeRecipe.setId(9);
 //		System.out.println(dto);
 		Grade newGrade = new Grade();
-		RegisteredUser ru = (RegisteredUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		RegisteredUser r = (RegisteredUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		RegisteredUser ru = (RegisteredUser) userRepo.findById(r.getId()).get();
 		Recipe gradeRecipe = recipeRepo.findById(dto.getRecipeID()).get();
 		KieSession kieSession = kieContainer.newKieSession("rulesSession");
 		System.out.println("Facts num: " + kieSession.getFactCount());
@@ -74,6 +80,8 @@ public class GradeService {
 		kieSession.fireAllRules();
 		System.out.println("Facts num: " + kieSession.getFactCount());
 		kieSession.dispose();
+		recipeRepo.save(gradeRecipe);
+		userRepo.save(ru);
 		recipeService.done();
 		return newGrade;
 		}

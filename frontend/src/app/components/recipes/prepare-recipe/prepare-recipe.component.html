@@ -16,13 +16,14 @@
                     <p><b>Price:</b> {{recipe?.price}} </p>
                     <p><b>Time:</b> {{recipe?.time}} </p>
                     <p><b>Type:</b> {{recipe?.type}} </p>
+                    <p><b>Complexity:</b> {{recipe?.complexity}} </p>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="card-body" style='height:100%; background-color: rgb(240, 240, 240); border-radius: 5px;'>
                         <p class="card-title"><b>Ingredients:</b></p>
                         <ul *ngFor="let ingr of recipe.ingredients">
-                            <li>{{ingr}}</li>
+                            <li>{{ingr | titlecase}}</li>
                         </ul>
                     </div>
                 </div>

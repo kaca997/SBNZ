@@ -56,7 +56,7 @@ public class RecipeService {
 	
 	public RecipeResponseDTO findRecipes(SearchRecipeDTO dto) {
 		ArrayList<Recipe> recipes = (ArrayList<Recipe>) recipeRepo.findAll();
-		System.out.println(recipes);
+		System.out.println("Found" + recipes);
 		RecipeResponseDTO found = new RecipeResponseDTO();
 //		Recipe r = new Recipe();
 //		r.setName("recipe1");
@@ -102,8 +102,8 @@ public class RecipeService {
 		RegisteredUser ru = (RegisteredUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		System.out.println(ru);
 		KieSession kieSession = kieContainer.newKieSession("rulesSession");
-		kieSession.setGlobal("recipes", recipes);
 		System.out.println("Facts num: " + kieSession.getFactCount());
+		kieSession.setGlobal("recipes", recipes);
 		kieSession.insert(dto);
 		kieSession.insert(ru);
 		kieSession.insert(found);
@@ -111,6 +111,7 @@ public class RecipeService {
 		System.out.println("Rules: " + fired);
 //		kieSession.fireAllRules();
 		System.out.println("Facts num: " + kieSession.getFactCount());
+		System.out.println("BEST RECIPES" +found);
 		kieSession.dispose();
 		return found;
 	}

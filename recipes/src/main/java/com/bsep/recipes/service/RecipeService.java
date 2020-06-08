@@ -1,9 +1,9 @@
 package com.bsep.recipes.service;
-import java.security.Security;
 import java.util.ArrayList;
 
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.rule.FactHandle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -12,6 +12,7 @@ import com.bsep.recipes.dto.RecipeDTO;
 import com.bsep.recipes.dto.RecipeResponseDTO;
 import com.bsep.recipes.dto.SearchRecipeDTO;
 import com.bsep.recipes.dto.StepDTO;
+import com.bsep.recipes.dto.StepResponseDTO;
 import com.bsep.recipes.events.StepEvent;
 import com.bsep.recipes.mapper.RecipeMapper;
 import com.bsep.recipes.model.Recipe;
@@ -29,7 +30,7 @@ public class RecipeService {
 	@Autowired
 	public RecipeService(KieContainer kieContainer) {
 		this.kieContainer = kieContainer;
-		this.eventSession = null;
+		this.eventSession = kieContainer.newKieSession("eventsSession");
 	}
 	
 	@Autowired
@@ -141,15 +142,17 @@ public class RecipeService {
 		return found;
 	}
 	
-	public String newStep(StepDTO step) {
+	public StepResponseDTO newStep(StepDTO step) {
 		System.out.println("Facts num: " + eventSession.getFactCount());
 		RegisteredUser ru = (RegisteredUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		StepEvent event = new StepEvent(ru.getId(), step.getRecipeID(), step.getStep(), step.getSuccess());
+		StepResponseDTO response = new StepResponseDTO();
 		eventSession.insert(event);
+		eventSession.setGlobal("response", response);
 //		step.setStep("s");
 //		kieSession.insert(step);
 //		kieSession.insert(new StepEvent(1, 1, "sa", false));
-//		kieSession.insert(new StepEvent(1, 1, "saa", false));
+//		kieSession.insert(nesw StepEvent(1, 1, "saa", false));
 		int fired = eventSession.fireAllRules();
 		System.out.println("Rules: " + fired);
 //		kieSession.fireAllRules();
@@ -157,6 +160,6 @@ public class RecipeService {
 //		int fired2 = kieSession.fireAllRules();
 		System.out.println("Facts num: " + eventSession.getFactCount());
 //		eventSession.dispose();
-		return "ok";
+		return response;
 	}
 }

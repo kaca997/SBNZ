@@ -38,6 +38,9 @@ export class PrepareRecipeComponent implements OnInit {
     console.log(this.stepsDone);
     this.recipeService.newStep(stepDetails).subscribe(
 			result => {
+          if(result.good == true){
+            this.toastr.success(result.message);
+          }
         console.log("AAAAAAAA");
         console.log(result);
 			},
@@ -57,6 +60,9 @@ export class PrepareRecipeComponent implements OnInit {
     console.log(this.stepsDone);
     this.recipeService.newStep(stepDetails).subscribe(
 			result => {
+        if(result.bad == true){
+          this.toastr.warning(result.message);
+        }
         console.log(result);
 			},
 			error => {

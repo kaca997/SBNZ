@@ -12,6 +12,7 @@ import com.bsep.recipes.dto.RecipeDTO;
 import com.bsep.recipes.dto.RecipeResponseDTO;
 import com.bsep.recipes.dto.SearchRecipeDTO;
 import com.bsep.recipes.dto.StepDTO;
+import com.bsep.recipes.dto.StepResponseDTO;
 import com.bsep.recipes.model.Recipe;
 import com.bsep.recipes.service.RecipeService;
 
@@ -85,8 +86,7 @@ public class RecipeController {
 	public ResponseEntity<?> newStep(@RequestBody StepDTO step) {
 		try {
 			System.out.println(step);
-			String ok  = recipeService.newStep(step);
-			return new ResponseEntity<StepDTO>(step, HttpStatus.OK);
+			return new ResponseEntity<StepResponseDTO>(recipeService.newStep(step), HttpStatus.OK);
 		}
 		catch (Exception e) {	
 			e.printStackTrace();

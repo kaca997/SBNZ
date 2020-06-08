@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 
-import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
 import { NotificationsComponent } from '../../pages/notifications/notifications.component';
 import { AddRecipeComponent } from 'app/components/recipes/add-recipe/add-recipe.component';
 import { SearchRecipeComponent } from 'app/components/recipes/search-recipe/search-recipe.component';
@@ -10,9 +9,9 @@ import { ReportsRecipeComponent } from 'app/components/reports/reports-recipe/re
 import { RoleGuard } from 'app/guards/role-guard.service';
 import { ReportsUserComponent } from 'app/components/reports/reports-user/reports-user.component';
 import { PrepareRecipeComponent } from 'app/components/recipes/prepare-recipe/prepare-recipe.component';
+import { StartPageComponent } from 'app/components/start-page/start-page.component';
 
 export const AdminLayoutRoutes: Routes = [
-    { path: 'dashboard',      component: DashboardComponent },
     { path: 'notifications',  component: NotificationsComponent },
     { path: 'addRecipe', 
       data: { expectedRoles: 'ROLE_ADMIN' },
@@ -45,5 +44,9 @@ export const AdminLayoutRoutes: Routes = [
       { path: 'bestUsers',
       data: { expectedRoles: 'ROLE_ADMIN' },
       canActivate: [RoleGuard],
-      component: ReportsUserComponent }
+      component: ReportsUserComponent },
+      { path: 'start-page',
+      data: { expectedRoles: 'ROLE_ADMIN|ROLE_REGISTEREDUSER' },
+      canActivate: [RoleGuard],
+      component:  StartPageComponent}
 ];

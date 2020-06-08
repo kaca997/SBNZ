@@ -46,6 +46,13 @@ export class AuthenticationService {
 		const info = jwt.decodeToken(token);
 		return info.role;
 	}
+
+	getUsername(): string {
+		const token = localStorage.getItem('user');
+		const jwt: JwtHelperService = new JwtHelperService();
+		const info = jwt.decodeToken(token);
+		return info.sub;
+	}
 	
   	register(user: any): Observable<any> {
 		let registerUrl =  "http://localhost:8080/auth/registration";

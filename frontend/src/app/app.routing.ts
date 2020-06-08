@@ -19,7 +19,7 @@ export const AppRoutes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: 'start-page',
     pathMatch: 'full',
   }, {
     path: '',

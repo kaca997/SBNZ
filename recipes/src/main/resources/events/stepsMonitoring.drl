@@ -1,9 +1,11 @@
 package events;
 
+global StepResponseDTO response;
 import com.bsep.recipes.events.StepEvent;
 import com.bsep.recipes.events.BadPreparationEvent;
 import com.bsep.recipes.events.GoodPreparationEvent;
 import com.bsep.recipes.dto.StepDTO;
+import com.bsep.recipes.dto.StepResponseDTO;
 import java.util.List;
 
 
@@ -52,14 +54,20 @@ end
 
 rule "Good preparation event"
 	when
+		//$reponse : StepResponseDTO()	
 		$goodPreparation: GoodPreparationEvent($userID: userID, $recileID: recipeID)
 	then
 		System.out.println("Good preparing");
+		response.setGood(true);
+		response.setMessage("Nice job!");
 end
 
 rule "Bad preparation event"
 	when
-		$goodPreparation: BadPreparationEvent($userID: userID, $recileID: recipeID)
+		//$reponse : StepResponseDTO()
+		$badPreparation: BadPreparationEvent($userID: userID, $recileID: recipeID)
 	then
 		System.out.println("Bad preparing");
+		response.setBad(true);
+		response.setMessage("Is everything ok?");
 end

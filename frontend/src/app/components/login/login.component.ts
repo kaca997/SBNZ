@@ -42,10 +42,7 @@ export class LoginComponent implements OnInit {
 				//console.log(jwt.decodeToken(result));
 				let info = jwt.decodeToken(result)
 				console.log(info);
-				if(this.authenticationService.getRole()==="ROLE_ADMIN")
-					this.router.navigate(['addRecipe']);
-				else
-					this.router.navigate(['searchRecipe'])
+				this.router.navigate(['start-page'])
 			},
 			error => {
 				console.log(error);

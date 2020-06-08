@@ -5,10 +5,9 @@ import { FormsModule } from '@angular/forms';
 
 import { AdminLayoutRoutes } from './admin-layout.routing';
 
-import { DashboardComponent }       from '../../pages/dashboard/dashboard.component';
-import { IconsComponent }           from '../../pages/icons/icons.component';
 import { NotificationsComponent }   from '../../pages/notifications/notifications.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { StartPageComponent } from 'app/components/start-page/start-page.component';
 
 @NgModule({
   imports: [
@@ -18,8 +17,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     NgbModule,
   ],
   declarations: [
-    DashboardComponent,
-    IconsComponent,
+    StartPageComponent,
     NotificationsComponent,
   ]
 })

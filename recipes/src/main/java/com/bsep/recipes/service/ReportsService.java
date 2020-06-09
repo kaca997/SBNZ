@@ -78,6 +78,7 @@ public class ReportsService {
 //		allUsers.add(ru1);
 //		allUsers.add(ru2);
 		KieSession kieSession = kieContainer.newKieSession("rulesSession");
+		kieSession.getAgenda().getAgendaGroup("reports").setFocus();
 		kieSession.setGlobal("allUsers", allUsers);
 		System.out.println("Facts num: " + kieSession.getFactCount());
 		kieSession.insert(dto);

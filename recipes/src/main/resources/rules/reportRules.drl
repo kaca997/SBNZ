@@ -14,6 +14,7 @@ import com.bsep.recipes.dto.RecipeReportsDTO;
 
 
 rule "Best users"
+	agenda-group "reports"
 	when
 		$foundUsers: ArrayList()
 		$userList: UserReportsDTO()
@@ -28,6 +29,7 @@ rule "Best users"
 end
 
 rule "Most popular recipes"
+	agenda-group "reports"
 	when
 		$recipeList: RecipeReportsDTO(best == true)
 		$max: Number() from accumulate(
@@ -48,6 +50,7 @@ rule "Most popular recipes"
 end
 
 rule "Least popular recipes"
+	agenda-group "reports"
 	when
 		$recipeList: RecipeReportsDTO(best == false)
 		$min: Number() from accumulate(

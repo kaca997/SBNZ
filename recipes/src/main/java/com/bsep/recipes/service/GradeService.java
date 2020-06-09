@@ -70,6 +70,7 @@ public class GradeService {
 		RegisteredUser ru = (RegisteredUser) userRepo.findById(r.getId()).get();
 		Recipe gradeRecipe = recipeRepo.findById(dto.getRecipeID()).get();
 		KieSession kieSession = kieContainer.newKieSession("rulesSession");
+		kieSession.getAgenda().getAgendaGroup("grade").setFocus();
 		System.out.println("Facts num: " + kieSession.getFactCount());
 		kieSession.insert(newGrade);
 		kieSession.insert(ru);

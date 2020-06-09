@@ -3,7 +3,8 @@ import java.util.ArrayList;
 
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
-import org.kie.api.runtime.rule.FactHandle;
+import org.kie.api.runtime.rule.QueryResults;
+import org.kie.api.runtime.rule.QueryResultsRow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -141,11 +142,15 @@ public class RecipeService {
 			kieSession.insert(ru);
 		}
 		kieSession.insert(name);
-		kieSession.insert(found);
 		int fired = kieSession.fireAllRules();
 		System.out.println("Rules: " + fired);
 //		kieSession.fireAllRules();
 		System.out.println("Facts num: " + kieSession.getFactCount());
+		QueryResults results = kieSession.getQueryResults( "getRecipeResponseName" ); 
+		for ( QueryResultsRow row : results ) {
+		    found =  ( RecipeResponseDTO ) row.get( "$result" ); //you can retrieve all the bounded variables here
+		    //do whatever you want with classA
+		}
 		kieSession.dispose();
 		return found;
 	}

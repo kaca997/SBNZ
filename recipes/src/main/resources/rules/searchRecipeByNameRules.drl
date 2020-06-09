@@ -13,11 +13,14 @@ import com.bsep.recipes.dto.SearchRecipeDTO;
 import com.bsep.recipes.dto.RecipeResponseDTO;
 
 
+query "getRecipeResponseName"
+	$result: RecipeResponseDTO()
+end
+
 rule "Search recipes by name"
 	agenda-group "search by name"
-	salience 10
 	when 
-		$found : RecipeResponseDTO(recipes.size() == 0)
+		not(RecipeResponseDTO())
 		$name : String()
 		$recipesFound: ArrayList() from collect (
     	 							Recipe(
@@ -25,7 +28,9 @@ rule "Search recipes by name"
     	 							)from recipes
     	 						)
 	then
+		RecipeResponseDTO $found = new RecipeResponseDTO();
 		$found.setRecipes($recipesFound);
+		insert($found);
 		System.out.println("name");
 		System.out.println($found);
 end

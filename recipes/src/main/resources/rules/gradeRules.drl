@@ -8,6 +8,7 @@ import java.util.List
 
 
 rule "Grade 5 - already prepared recipe with lower grade"
+	agenda-group "grade"
 	when 
 		$grade : Grade(grade == null)
 		$gradeDTO: GradeDTO($steps: steps, $recipeid: recipeID)
@@ -43,6 +44,7 @@ rule "Grade 5 - already prepared recipe with lower grade"
 end
 
 rule "Grade 5 - already prepared recipe with same grade"
+	agenda-group "grade"
 	when 
 		$grade : Grade(grade == null)
 		$gradeDTO: GradeDTO($steps: steps, $recipeid: recipeID)
@@ -77,6 +79,7 @@ rule "Grade 5 - already prepared recipe with same grade"
 end
 
 rule "Grade 5 - first time prepared recipe"
+	agenda-group "grade"
 	when
 		$grade : Grade(grade == null)
 		$gradeDTO: GradeDTO($steps: steps, $recipeid: recipeID)
@@ -104,6 +107,7 @@ rule "Grade 5 - first time prepared recipe"
 end
 
 rule "Grade 4 - already prepared recipe with lower grade"
+	agenda-group "grade"
 	when 
 		$grade : Grade(grade == null)
 		$gradeDTO: GradeDTO($steps: steps, $recipeid: recipeID)
@@ -140,6 +144,7 @@ end
 
 
 rule "Grade 4 - already prepared recipe with same or higher grade"
+	agenda-group "grade"
 	when 
 		$grade : Grade(grade == null)
 		$gradeDTO: GradeDTO($steps: steps, $recipeid: recipeID)
@@ -174,6 +179,7 @@ rule "Grade 4 - already prepared recipe with same or higher grade"
 end
 
 rule "Grade 4 - first time prepared recipe" 
+	agenda-group "grade"
 	when 
 		$grade : Grade(grade == null)
 		$gradeDTO: GradeDTO($steps: steps, $recipeid: recipeID)
@@ -200,6 +206,7 @@ rule "Grade 4 - first time prepared recipe"
 end
 
 rule "Grade 3 - already prepared recipe with lower grade"
+	agenda-group "grade"
 	when 
 		$grade : Grade(grade == null)
 		$gradeDTO: GradeDTO($steps: steps, $recipeid: recipeID)
@@ -235,6 +242,7 @@ rule "Grade 3 - already prepared recipe with lower grade"
 end
 
 rule "Grade 3 - already prepared recipe with same or higher grade"
+	agenda-group "grade"
 	when 
 		$grade : Grade(grade == null)
 		$gradeDTO: GradeDTO($steps: steps, $recipeid: recipeID)
@@ -269,6 +277,7 @@ rule "Grade 3 - already prepared recipe with same or higher grade"
 end
 
 rule "Grade 3 - first time prepared recipe"
+	agenda-group "grade"
 	when 
 		$grade : Grade(grade == null)
 		$gradeDTO: GradeDTO($steps: steps, $recipeid: recipeID)
@@ -295,6 +304,7 @@ rule "Grade 3 - first time prepared recipe"
 end
 
 rule "Grade 2 - already prepared recipe with lower grade"
+	agenda-group "grade"
 	when 
 		$grade : Grade(grade == null)
 		$gradeDTO: GradeDTO($steps: steps, $recipeid: recipeID)
@@ -331,6 +341,7 @@ end
 
 
 rule "Grade 2 - already prepared recipe with higher or same grade"
+	agenda-group "grade"
 	when 
 		$grade : Grade(grade == null)
 		$gradeDTO: GradeDTO($steps: steps, $recipeid: recipeID)
@@ -365,6 +376,7 @@ rule "Grade 2 - already prepared recipe with higher or same grade"
 end
 
 rule "Grade 2 -first time prepared reciep"
+	agenda-group "grade"
 	when 
 		$grade : Grade(grade == null)
 		$gradeDTO: GradeDTO($steps: steps, $recipeid: recipeID)
@@ -391,6 +403,7 @@ rule "Grade 2 -first time prepared reciep"
 end
 
 rule "Grade 1 - already prepared recipe with higher or same grade"
+	agenda-group "grade"
 	when 
 		$grade : Grade(grade == null)
 		$gradeDTO: GradeDTO($steps: steps, $recipeid: recipeID)
@@ -425,6 +438,7 @@ rule "Grade 1 - already prepared recipe with higher or same grade"
 end
 
 rule "Grade 1 - first time prepared recipe"
+	agenda-group "grade"
 	when 
 		$grade : Grade(grade == null)
 		$gradeDTO: GradeDTO($steps: steps, $recipeid: recipeID)

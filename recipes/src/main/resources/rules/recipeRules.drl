@@ -5,6 +5,7 @@ import com.bsep.recipes.model.Recipe
 import com.bsep.recipes.model.RecipeComplexityType;
 
 rule "New easy recipe"
+	agenda-group "new-recipe"
 	when 
 		$recipeDTO: RecipeDTO(steps.size()<4)
 		$recipe : Recipe(complexity==null)
@@ -14,6 +15,7 @@ rule "New easy recipe"
 end
 
 rule "New hard recipe"
+	agenda-group "new-recipe"
 	when 
 		$recipeDTO: RecipeDTO(steps.size()>7)
 		$recipe : Recipe(complexity==null)
@@ -23,6 +25,7 @@ rule "New hard recipe"
 end
 
 rule "New medium recipe"
+	agenda-group "new-recipe"
 	when 
 		$recipeDTO: RecipeDTO(steps.size()<=7, steps.size()>=4)
 		$recipe : Recipe(complexity==null)

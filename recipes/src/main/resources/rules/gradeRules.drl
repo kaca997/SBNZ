@@ -7,8 +7,77 @@ import com.bsep.recipes.dto.StepDTO;
 import java.util.List
 
 
-rule "Grade 5"
+rule "Grade 5 - already prepared recipe with lower grade"
 	when 
+		$grade : Grade(grade == null)
+		$gradeDTO: GradeDTO($steps: steps, $recipeid: recipeID)
+		$recipe: Recipe(id == $recipeid)
+		$ru: RegisteredUser($grades: grades)
+		Double(doubleValue/$steps.size()<=1.0, doubleValue/$steps.size()>=0.81) from accumulate (
+    	 						StepDTO(
+    	 							success == true
+    	 						)	 
+    	 						from $steps,
+    	 						init(double count = 0.0;),
+    	 						action(count += 1;),
+    	 						result(count)
+    	 					)
+    	$gr : Grade() from accumulate(
+    					$g : Grade(
+    						recipe==$recipe,
+    						grade < 5
+    					)
+    					from $grades
+    					init(Grade g = null),
+    					action(g = $g;)
+    					result(g)
+    					)
+	then
+		$grade.setGrade(5);
+		$gr.setGrade(5);
+		System.out.println("Updated");
+		$recipe.setPrepared($recipe.getPrepared()+1);
+    	update($grade);
+    	update($ru);
+    	update($recipe);
+end
+
+rule "Grade 5 - already prepared recipe with same grade"
+	when 
+		$grade : Grade(grade == null)
+		$gradeDTO: GradeDTO($steps: steps, $recipeid: recipeID)
+		$recipe: Recipe(id == $recipeid)
+		$ru: RegisteredUser($grades: grades)
+		Double(doubleValue/$steps.size()<=1.0, doubleValue/$steps.size()>=0.81) from accumulate (
+    	 						StepDTO(
+    	 							success == true
+    	 						)	 
+    	 						from $steps,
+    	 						init(double count = 0.0;),
+    	 						action(count += 1;),
+    	 						result(count)
+    	 					)
+    	$gr : Grade() from accumulate(
+    					$g : Grade(
+    						recipe==$recipe,
+    						grade >= 5
+    					)
+    					from $grades
+    					init(Grade g = null),
+    					action(g = $g;)
+    					result(g)
+    					)
+	then
+		$grade.setGrade(5);
+		System.out.println("Same");
+		$recipe.setPrepared($recipe.getPrepared()+1);
+    	update($grade);
+    	update($ru);
+    	update($recipe);
+end
+
+rule "Grade 5 - first time prepared recipe"
+	when
 		$grade : Grade(grade == null)
 		$gradeDTO: GradeDTO($steps: steps, $recipeid: recipeID)
 		$recipe: Recipe(id == $recipeid)
@@ -22,18 +91,89 @@ rule "Grade 5"
     	 						action(count += 1;),
     	 						result(count)
     	 					)
-	then
-		$grade.setGrade(5);
+   	then
+   		$grade.setGrade(5);
 		$grade.setUser($ru);
 		$grade.setRecipe($recipe);
 		$ru.getGrades().add($grade);
+		$recipe.setPrepared($recipe.getPrepared()+1);
+		System.out.println("new");
+    	update($grade);
+    	update($ru);
+    	update($recipe);
+end
+
+rule "Grade 4 - already prepared recipe with lower grade"
+	when 
+		$grade : Grade(grade == null)
+		$gradeDTO: GradeDTO($steps: steps, $recipeid: recipeID)
+		$recipe: Recipe(id == $recipeid)
+		$ru: RegisteredUser($grades: grades)
+		Double(doubleValue/$steps.size()<=0.8, doubleValue/$steps.size()>=0.61) from accumulate (
+    	 						StepDTO(
+    	 							success == true
+    	 						)	 
+    	 						from $steps,
+    	 						init(double count = 0.0;),
+    	 						action(count += 1;),
+    	 						result(count)
+    	 					)
+    	$gr : Grade() from accumulate(
+    					$g : Grade(
+    						recipe==$recipe,
+    						grade< 4
+    					)
+    					from $grades
+    					init(Grade g = null),
+    					action(g = $g;)
+    					result(g)
+    					)
+	then
+		$grade.setGrade(4);
+		$gr.setGrade(4);
+		System.out.println("Updated");
 		$recipe.setPrepared($recipe.getPrepared()+1);
     	update($grade);
     	update($ru);
     	update($recipe);
 end
 
-rule "Grade 4"
+
+rule "Grade 4 - already prepared recipe with same or higher grade"
+	when 
+		$grade : Grade(grade == null)
+		$gradeDTO: GradeDTO($steps: steps, $recipeid: recipeID)
+		$recipe: Recipe(id == $recipeid)
+		$ru: RegisteredUser($grades: grades)
+		Double(doubleValue/$steps.size()<=0.8, doubleValue/$steps.size()>=0.61) from accumulate (
+    	 						StepDTO(
+    	 							success == true
+    	 						)	 
+    	 						from $steps,
+    	 						init(double count = 0.0;),
+    	 						action(count += 1;),
+    	 						result(count)
+    	 					)
+    	$gr : Grade() from accumulate(
+    					$g : Grade(
+    						recipe==$recipe,
+    						grade>=4
+    					)
+    					from $grades
+    					init(Grade g = null),
+    					action(g = $g;)
+    					result(g)
+    					)
+	then
+		$grade.setGrade(4);
+		System.out.println("Same");
+		$recipe.setPrepared($recipe.getPrepared()+1);
+    	update($grade);
+    	update($ru);
+    	update($recipe);
+end
+
+rule "Grade 4 - first time prepared recipe" 
 	when 
 		$grade : Grade(grade == null)
 		$gradeDTO: GradeDTO($steps: steps, $recipeid: recipeID)
@@ -59,7 +199,76 @@ rule "Grade 4"
     	update($recipe);
 end
 
-rule "Grade 3"
+rule "Grade 3 - already prepared recipe with lower grade"
+	when 
+		$grade : Grade(grade == null)
+		$gradeDTO: GradeDTO($steps: steps, $recipeid: recipeID)
+		$recipe: Recipe(id == $recipeid)
+		$ru: RegisteredUser($grades: grades)
+		Double(doubleValue/$steps.size()<=0.6, doubleValue/$steps.size()>=0.41) from accumulate (
+    	 						StepDTO(
+    	 							success == true
+    	 						)	 
+    	 						from $steps,
+    	 						init(double count = 0.0;),
+    	 						action(count += 1;),
+    	 						result(count)
+    	 					)
+    	$gr : Grade() from accumulate(
+    					$g : Grade(
+    						recipe==$recipe,
+    						grade<3
+    					)
+    					from $grades
+    					init(Grade g = null),
+    					action(g = $g;)
+    					result(g)
+    					)
+	then
+		$grade.setGrade(3);
+		$gr.setGrade(3);
+		System.out.println("Updated");
+		$recipe.setPrepared($recipe.getPrepared()+1);
+    	update($grade);
+    	update($ru);
+    	update($recipe);
+end
+
+rule "Grade 3 - already prepared recipe with same or higher grade"
+	when 
+		$grade : Grade(grade == null)
+		$gradeDTO: GradeDTO($steps: steps, $recipeid: recipeID)
+		$recipe: Recipe(id == $recipeid)
+		$ru: RegisteredUser($grades: grades)
+		Double(doubleValue/$steps.size()<=0.6, doubleValue/$steps.size()>=0.41) from accumulate (
+    	 						StepDTO(
+    	 							success == true
+    	 						)	 
+    	 						from $steps,
+    	 						init(double count = 0.0;),
+    	 						action(count += 1;),
+    	 						result(count)
+    	 					)
+    	$gr : Grade() from accumulate(
+    					$g : Grade(
+    						recipe==$recipe,
+    						grade>=3
+    					)
+    					from $grades
+    					init(Grade g = null),
+    					action(g = $g;)
+    					result(g)
+    					)
+	then
+		$grade.setGrade(3);
+		System.out.println("Same");
+		$recipe.setPrepared($recipe.getPrepared()+1);
+    	update($grade);
+    	update($ru);
+    	update($recipe);
+end
+
+rule "Grade 3 - first time prepared recipe"
 	when 
 		$grade : Grade(grade == null)
 		$gradeDTO: GradeDTO($steps: steps, $recipeid: recipeID)
@@ -85,7 +294,77 @@ rule "Grade 3"
     	update($recipe);
 end
 
-rule "Grade 2"
+rule "Grade 2 - already prepared recipe with lower grade"
+	when 
+		$grade : Grade(grade == null)
+		$gradeDTO: GradeDTO($steps: steps, $recipeid: recipeID)
+		$recipe: Recipe(id == $recipeid)
+		$ru: RegisteredUser($grades: grades)
+		Double(doubleValue/$steps.size()<=0.4, doubleValue/$steps.size()>=0.21) from accumulate (
+    	 						StepDTO(
+    	 							success == true
+    	 						)	 
+    	 						from $steps,
+    	 						init(double count = 0.0;),
+    	 						action(count += 1;),
+    	 						result(count)
+    	 					)
+    	$gr : Grade() from accumulate(
+    					$g : Grade(
+    						recipe==$recipe,
+    						grade<2
+    					)
+    					from $grades
+    					init(Grade g = null),
+    					action(g = $g;)
+    					result(g)
+    					)
+	then
+		$grade.setGrade(2);
+		$gr.setGrade(2);
+		System.out.println("Updated");
+		$recipe.setPrepared($recipe.getPrepared()+1);
+    	update($grade);
+    	update($ru);
+    	update($recipe);
+end
+
+
+rule "Grade 2 - already prepared recipe with higher or same grade"
+	when 
+		$grade : Grade(grade == null)
+		$gradeDTO: GradeDTO($steps: steps, $recipeid: recipeID)
+		$recipe: Recipe(id == $recipeid)
+		$ru: RegisteredUser($grades: grades)
+		Double(doubleValue/$steps.size()<=0.4, doubleValue/$steps.size()>=0.21) from accumulate (
+    	 						StepDTO(
+    	 							success == true
+    	 						)	 
+    	 						from $steps,
+    	 						init(double count = 0.0;),
+    	 						action(count += 1;),
+    	 						result(count)
+    	 					)
+    	$gr : Grade() from accumulate(
+    					$g : Grade(
+    						recipe==$recipe,
+    						grade>=2
+    					)
+    					from $grades
+    					init(Grade g = null),
+    					action(g = $g;)
+    					result(g)
+    					)
+	then
+		$grade.setGrade(3);
+		System.out.println("Same");
+		$recipe.setPrepared($recipe.getPrepared()+1);
+    	update($grade);
+    	update($ru);
+    	update($recipe);
+end
+
+rule "Grade 2 -first time prepared reciep"
 	when 
 		$grade : Grade(grade == null)
 		$gradeDTO: GradeDTO($steps: steps, $recipeid: recipeID)
@@ -111,7 +390,41 @@ rule "Grade 2"
     	update($recipe);
 end
 
-rule "Grade 1"
+rule "Grade 1 - already prepared recipe with higher or same grade"
+	when 
+		$grade : Grade(grade == null)
+		$gradeDTO: GradeDTO($steps: steps, $recipeid: recipeID)
+		$recipe: Recipe(id == $recipeid)
+		$ru: RegisteredUser($grades: grades)
+		Double(doubleValue/$steps.size()<=0.2) from accumulate (
+    	 						StepDTO(
+    	 							success == true
+    	 						)	 
+    	 						from $steps,
+    	 						init(double count = 0.0;),
+    	 						action(count += 1;),
+    	 						result(count)
+    	 					)
+    	$gr : Grade() from accumulate(
+    					$g : Grade(
+    						recipe==$recipe,
+    						grade >= 1
+    					)
+    					from $grades
+    					init(Grade g = null),
+    					action(g = $g;)
+    					result(g)
+    					)
+	then
+		$grade.setGrade(1);
+		System.out.println("Updated");
+		$recipe.setPrepared($recipe.getPrepared()+1);
+    	update($grade);
+    	update($ru);
+    	update($recipe);
+end
+
+rule "Grade 1 - first time prepared recipe"
 	when 
 		$grade : Grade(grade == null)
 		$gradeDTO: GradeDTO($steps: steps, $recipeid: recipeID)

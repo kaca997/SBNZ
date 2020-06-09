@@ -70,7 +70,7 @@ export class SearchRecipeComponent implements OnInit {
         console.log(result);
         this.dataService.changeRecipes(result.recipes);
         this.dataService.changeBestRecipes(result.bestRecipes);
-        this.dataService.changeSearchByName(false);
+        this.dataService.changeNotForPreparationRecipes(result.notForPreparation);
         this.router.navigate(['foundRecipes']);
 			},
 			error => {

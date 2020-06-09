@@ -23,9 +23,9 @@ searchRecipe(recipeData: any): Observable<any> {
   return this.http.post(searchRecipeURL, recipeData, {headers: this.headers});
   }
 
-searchRecipeByName(recipeData: any): Observable<any> {
-  let searchRecipeURL =  "http://localhost:8080/searchRecipeByName";
-  return this.http.post(searchRecipeURL, recipeData, {headers: this.headers});
+searchRecipeByName(recipeData: string): Observable<any> {
+  let searchRecipeNameURL =  "http://localhost:8080/searchRecipeByName/"+recipeData;
+  return this.http.get(searchRecipeNameURL,{headers: this.headers});
   }
 
 newStep(stepData: any): Observable<any> {

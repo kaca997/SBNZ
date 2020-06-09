@@ -8,11 +8,13 @@ import com.bsep.recipes.model.Recipe;
 public class RecipeResponseDTO {
 	private List<Recipe> recipes;
 	private List<Recipe> bestRecipes;
+	private List<Recipe> notForPreparation;
 
 	public RecipeResponseDTO() {
 		super();
 		this.recipes = new ArrayList<Recipe>();
 		this.bestRecipes = new ArrayList<Recipe>();
+		this.notForPreparation = new ArrayList<Recipe>();
 	}
 
 	public RecipeResponseDTO(List<Recipe> recipes) {
@@ -34,6 +36,14 @@ public class RecipeResponseDTO {
 
 	public void setBestRecipes(List<Recipe> bestRecipes) {
 		this.bestRecipes = bestRecipes;
+	}
+
+	public List<Recipe> getNotForPreparation() {
+		return notForPreparation;
+	}
+
+	public void setNotForPreparation(List<Recipe> notForPreparation) {
+		this.notForPreparation = notForPreparation;
 	}
 
 	@Override

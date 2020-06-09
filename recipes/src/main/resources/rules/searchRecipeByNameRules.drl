@@ -1,0 +1,75 @@
+package rules;
+
+global ArrayList<Recipe> recipes;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Collection;
+import com.bsep.recipes.model.RegisteredUser;
+import com.bsep.recipes.model.Recipe;
+import com.bsep.recipes.model.RecipeComplexityType;
+import com.bsep.recipes.model.UserKnowledgeType;
+import com.bsep.recipes.model.Grade;
+import com.bsep.recipes.dto.SearchRecipeDTO;
+import com.bsep.recipes.dto.RecipeResponseDTO;
+
+
+rule "Search recipes by name"
+	agenda-group "search by name"
+	salience 10
+	when 
+		$found : RecipeResponseDTO(recipes.size() == 0)
+		$name : String()
+		$recipesFound: ArrayList() from collect (
+    	 							Recipe(
+    	 								name.toLowerCase().contains($name.toLowerCase())
+    	 							)from recipes
+    	 						)
+	then
+		$found.setRecipes($recipesFound);
+		System.out.println("name");
+		System.out.println($found);
+end
+
+rule "Search recipes by name if user is beginner"
+	agenda-group "search by name"
+	when 
+		$found : RecipeResponseDTO($recipes: recipes)
+		$name : String()
+		$ru: RegisteredUser(knowledge == UserKnowledgeType.BEGINER)
+		$recipesNotForPreparation: ArrayList() from collect (
+	    	 						Recipe(
+	 									complexity != RecipeComplexityType.EASY
+	    	 						)from $recipes
+		 						)
+		$otherRecipes: ArrayList() from collect(
+	   								Recipe(
+	   									!($recipesNotForPreparation.contains(this))
+	   								)from $recipes
+	    	 					) 						
+	then
+		$found.setRecipes($otherRecipes);
+		$found.setNotForPreparation($recipesNotForPreparation);
+		System.out.println("ru beginner");
+end
+
+rule "Search recipes by name if user is intermediate"
+	agenda-group "search by name"
+	when 
+		$found : RecipeResponseDTO($recipes: recipes)
+		$name : String()
+		$ru: RegisteredUser(knowledge == UserKnowledgeType.INTERMEDIATE)
+		$recipesNotForPreparation: ArrayList() from collect (
+	    	 						Recipe(
+	 									complexity == RecipeComplexityType.HARD
+	    	 						)from $recipes
+		 						)
+		$otherRecipes: ArrayList() from collect(
+	   								Recipe(
+	   									!($recipesNotForPreparation.contains(this))
+	   								)from $recipes
+	    	 					) 						
+	then
+		$found.setRecipes($otherRecipes);
+		$found.setNotForPreparation($recipesNotForPreparation);
+		System.out.println(" ru intermediate");
+end

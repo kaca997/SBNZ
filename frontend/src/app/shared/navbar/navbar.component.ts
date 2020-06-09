@@ -111,16 +111,15 @@ export class NavbarComponent implements OnInit{
 
     searchRecipes(){
       console.log("search");
-      const recipe: any = {};
-      recipe.name = this.recipeName;
-      console.log(recipe);
-      this.recipeService.searchRecipeByName(recipe).subscribe(
+      if(this.recipeName === "")
+        return;
+      this.recipeService.searchRecipeByName(this.recipeName).subscribe(
         result => {
           //this.toastr.success("Success");
-          console.log("result",result.recipes);
+          console.log(result);
           this.dataService.changeRecipes(result.recipes);
           this.dataService.changeBestRecipes(result.bestRecipes);
-          this.dataService.changeSearchByName(true);
+          this.dataService.changeNotForPreparationRecipes(result.notForPreparation);
           this.router.navigate(['foundRecipes']);
         },
         error => {

@@ -77,5 +77,5 @@ function boolean countGrades(Collection sourceColl){
 		if(gr.getGrade()==5 && gr.getRecipe().getComplexity() == RecipeComplexityType.HARD)
 			count+=1;
 	}
-	return count>=5;
+	return count>=3;
 }

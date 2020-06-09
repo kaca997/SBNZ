@@ -11,14 +11,12 @@ rule "Upgrade user to medium"
 	when 
 		$user : RegisteredUser($grades: grades, knowledge == UserKnowledgeType.BEGINER) @Watch (grades)
 		$n: Number(intValue==3) from accumulate (
-    	 						Grade(
+    	 						$g : Grade(
     	 							grade >= 4,
-    	 							recipe.complexity == RecipeComplexityType.HARD
+    	 							recipe.complexity == RecipeComplexityType.EASY
     	 						)	 
     	 						from $grades,
-    	 						init(int count = 0;),
-    	 						action(count += 1;),
-    	 						result(count)
+    	 						count($g)
     	 					)
 	then
 		System.out.println($grades);
@@ -30,14 +28,12 @@ rule "Upgrade user to advanced"
 	when 
 		$user : RegisteredUser($grades: grades, knowledge == UserKnowledgeType.INTERMEDIATE) @Watch (grades)
 		$n: Number(intValue==3) from accumulate (
-    	 						Grade(
+    	 						$g: Grade(
     	 							grade >= 4,
     	 							recipe.complexity == RecipeComplexityType.MEDIUM
     	 						)	 
     	 						from $grades,
-    	 						init(int count = 0;),
-    	 						action(count += 1;),
-    	 						result(count)
+    	 						count($g)
     	 					)
 	then
 		System.out.println($grades);

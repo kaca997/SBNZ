@@ -1,17 +1,17 @@
 <div class="containter-fluid">
     <div class="row">
-        <div class="col-sm-4 col-lg-3" *ngFor="let user of users">
+        <div class="col-sm-4 col-lg-3" *ngFor="let user of users" style="max-width: 95%;">
             <div class="card">
                 <div class="card-body">
                     <div>
-                        <img style='border-radius: 5px;' src="/assets/img/damir-bosnjak.jpg">
+                        <img style='border-radius: 5px;' src="/assets/img/default-avatar.png">
                         <p><strong>Username:</strong> {{user?.username}}</p>
                         <p><strong>First Name:</strong> {{user?.firstName}}</p>
                         <p><strong>Last Name:</strong> {{user?.lastName}}</p>
                         <div>
                         <p><strong>Grades:</strong></p>
                         <ul>
-                        <li *ngFor="let grade of user.grades"><strong>{{grade?.recipeName}}:</strong> {{grade?.grade}}</li>
+                        <li *ngFor="let grade of user.grades"><strong>{{grade?.recipeName | titlecase}}:</strong> {{grade?.grade}}</li>
                     </ul>    
                     </div>
                     </div>

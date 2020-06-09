@@ -39,7 +39,7 @@ export class AddRecipeComponent implements OnInit {
 
 	addRecipe() {
 		const recipe: any = {};
-		recipe.name = this.formAddRecipe.value.name;
+		recipe.name = (this.formAddRecipe.value.name).toLowerCase();
     recipe.type = this.formAddRecipe.value.type;
     recipe.price = this.formAddRecipe.value.price;
     recipe.time = this.formAddRecipe.value.time;

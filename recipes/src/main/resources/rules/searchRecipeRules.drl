@@ -13,21 +13,6 @@ import com.bsep.recipes.dto.SearchRecipeDTO;
 import com.bsep.recipes.dto.RecipeResponseDTO;
 
 
-function boolean containsAny(List sourceList, List targetList){
-	for(Object ingr1 : sourceList){
-	   for(Object ingr2: targetList){
-	       if(ingr1.equals(ingr2)){
-	           return true;
-	       }
-	    }
-	}
-	return false;
-}
-
-function boolean aa(){
-	return true;
-}
-
 rule "Recipe can't contain any ingredient that user doesn't like"
 	salience 10
     lock-on-active
@@ -63,7 +48,8 @@ rule "Recipes for beginers"
 	salience 9
     lock-on-active
     when 
-		$found : RecipeResponseDTO($recipes: recipes)
+    	not(String()) 
+		$found : RecipeResponseDTO($recipes: recipes, notForPreparation.size()==0)
 		$user : RegisteredUser(knowledge == UserKnowledgeType.BEGINER)
 		$recipesFound: ArrayList() from collect (
 	    	 						Recipe(
@@ -80,8 +66,9 @@ end
 rule "Recipes for intermediate users"
 	salience 9
     lock-on-active
-    when 
-		$found : RecipeResponseDTO($recipes: recipes)
+    when
+    	not(String()) 
+		$found : RecipeResponseDTO($recipes: recipes, notForPreparation.size()==0)
 		$user : RegisteredUser(knowledge == UserKnowledgeType.INTERMEDIATE)
 		$recipesFound: ArrayList() from collect (
 	    	 							Recipe(
@@ -263,18 +250,4 @@ rule "Best recipe suggestion for recipes that contain the most ingredients that 
 		System.out.println($bestRecipes);
 		System.out.println("besttt2");
 		System.out.println($found);
-end
-
-rule "Search recipes by name"
-	when 
-		$found : RecipeResponseDTO()
-		$recipeSearch : SearchRecipeDTO($name: name, name != null)
-		$recipesFound: ArrayList() from collect (
-    	 							Recipe(
-    	 								name.toLowerCase().contains($name.toLowerCase())
-    	 							)from recipes
-    	 						)
-	then
-		$found.getRecipes().addAll($recipesFound);
-		System.out.println("name");
 end

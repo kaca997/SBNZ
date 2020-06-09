@@ -3,6 +3,7 @@ package com.bsep.recipes.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -68,11 +69,11 @@ public class RecipeController {
 		}
 	}
 	
-	@RequestMapping(value = "/searchRecipeByName", method = RequestMethod.POST, produces = "application/json")
-	public ResponseEntity<?> searchRecipeByName(@RequestBody SearchRecipeDTO dto) {
-		System.out.println(dto);
+	@RequestMapping(value = "/searchRecipeByName/{name}", method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<?> searchRecipeByName(@PathVariable("name") String name) {
+		System.out.println(name);
 		try {
-			RecipeResponseDTO found = recipeService.findRecipesByName(dto);
+			RecipeResponseDTO found = recipeService.findRecipesByName(name);
 			return new ResponseEntity<RecipeResponseDTO>(found, HttpStatus.OK);
 		}
 		catch (Exception e) {	

@@ -1,14 +1,15 @@
 <div class="containter-fluid">
     <div class="row">
         <div class="col-sm-4 col-lg-3" *ngFor="let recipe of recipes">
-            <div class="card">
+            <div class="card" style="height:95%; width: 100%;">
                 <div class="card-body">
                     <div>
-                        <img style='border-radius: 5px;' src="/assets/img/damir-bosnjak.jpg">
-                        <p><strong>Name:</strong> {{recipe?.name}}</p>
+                        <img style='border-radius: 5px;' [src]="recipe.imgURL" style="height: 25vh; display: block ;margin: 0 auto;">
+                        <p><strong>Name:</strong> {{recipe?.name | titlecase}}</p>
                         <p><b>Price:</b> {{recipe?.price}} </p>
                         <p><b>Time:</b> {{recipe?.time}} </p>
                         <p><b>Type:</b> {{recipe?.type}} </p>
+                        <p><b>Prepared:</b> {{recipe?.prepared}} times </p>
                     </div>
                     <div style="text-align: center;">
                         <button class="btn btn-round"

@@ -17,6 +17,7 @@ import com.bsep.recipes.events.StepEvent;
 import com.bsep.recipes.mapper.RecipeMapper;
 import com.bsep.recipes.model.Recipe;
 import com.bsep.recipes.model.RegisteredUser;
+import com.bsep.recipes.model.User;
 import com.bsep.recipes.repository.RecipeRepository;
 
 
@@ -125,14 +126,21 @@ public class RecipeService {
 		eventSession.dispose();
 	}
 	
-	public RecipeResponseDTO findRecipesByName(SearchRecipeDTO dto) {
+	public RecipeResponseDTO findRecipesByName(String name) {
 		ArrayList<Recipe> recipes = (ArrayList<Recipe>) recipeRepo.findAll();
 		System.out.println(recipes);
 		RecipeResponseDTO found = new RecipeResponseDTO();
 		KieSession kieSession = kieContainer.newKieSession("rulesSession");
+		kieSession.getAgenda().getAgendaGroup("search by name").setFocus();
 		kieSession.setGlobal("recipes", recipes);
 		System.out.println("Facts num: " + kieSession.getFactCount());
-		kieSession.insert(dto);
+		RegisteredUser ru;
+		User u = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if(u instanceof RegisteredUser) {
+			ru = (RegisteredUser)u;
+			kieSession.insert(ru);
+		}
+		kieSession.insert(name);
 		kieSession.insert(found);
 		int fired = kieSession.fireAllRules();
 		System.out.println("Rules: " + fired);

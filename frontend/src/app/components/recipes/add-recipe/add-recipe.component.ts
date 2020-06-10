@@ -50,7 +50,8 @@ export class AddRecipeComponent implements OnInit {
     this.recipeService.addRecipe(recipe).subscribe(
 			result => {
         this.toastr.success("Recipe added");
-				console.log(result);
+        console.log(result);
+        this.router.navigate(['start-page']);
 			},
 			error => {
 				console.log(error);

@@ -44,6 +44,7 @@ public class RecipeService {
 		System.out.println(dto);
 		System.out.println(r);
 		KieSession kieSession = kieContainer.newKieSession("rulesSession");
+		kieSession.getAgenda().getAgendaGroup("new-recipe").setFocus();
 		System.out.println("Facts num: " + kieSession.getFactCount());
 		kieSession.insert(dto);
 		kieSession.insert(r);

@@ -3,6 +3,7 @@ import { DataService } from 'app/services/data.service';
 import { RecipeService } from 'app/services/recipe.service';
 import { GradeService } from 'app/services/grade.service';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-prepare-recipe',
@@ -13,7 +14,7 @@ export class PrepareRecipeComponent implements OnInit {
   stepsDone: Array<any>=[];
   recipe: any;
   count: number = 0;
-  constructor(private data:DataService, private gradeService: GradeService, private toastr: ToastrService, private recipeService:RecipeService) { }
+  constructor(private data:DataService, private gradeService: GradeService, private toastr: ToastrService, private recipeService:RecipeService, private router: Router) { }
 
   ngOnInit(): void {
     this.data.recipeDetails.subscribe(recipe => this.recipe = recipe);
@@ -41,11 +42,9 @@ export class PrepareRecipeComponent implements OnInit {
           if(result.good == true){
             this.toastr.success(result.message);
           }
-        console.log("AAAAAAAA");
         console.log(result);
 			},
 			error => {
-        console.log("ERRRRR");
 				console.log(error);
       })
   }
@@ -76,8 +75,9 @@ export class PrepareRecipeComponent implements OnInit {
     console.log(recipeData);
     this.gradeService.getGrade(recipeData).subscribe(
 			result => {
-        const message = "Your grade for this recipe is: "+  result.grade;
+        const message = "Your grade for this recipe preparation is: "+  result.grade;
         this.toastr.success(message);
+        this.router.navigate(['start-page']);
 			},
 			error => {
 				console.log(error);

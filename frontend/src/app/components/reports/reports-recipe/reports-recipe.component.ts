@@ -12,6 +12,7 @@ import { DataService } from 'app/services/data.service';
 export class ReportsRecipeComponent implements OnInit {
   type:string;
   recipes: Array<any>;
+  countRecipes: number = 0;
   constructor(private router: Router, private reportsService: ReportsService, private toastr:ToastrService, private data:DataService) { }
 
   ngOnInit(): void {
@@ -33,6 +34,7 @@ export class ReportsRecipeComponent implements OnInit {
 			result => {
         console.log("Most:",result);
         this.recipes = result.recipes;
+        this.countRecipes = this.recipes.length;
 			},
 			error => {
 				this.toastr.error(error.error);
@@ -45,6 +47,7 @@ export class ReportsRecipeComponent implements OnInit {
 			result => {
         console.log("Least:",result);
         this.recipes = result.recipes;
+        this.countRecipes = this.recipes.length;
 			},
 			error => {
 				this.toastr.error(error.error);

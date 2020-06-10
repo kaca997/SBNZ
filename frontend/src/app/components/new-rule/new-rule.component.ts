@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NewRuleService } from 'app/services/new-rule.service';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-rule',
@@ -12,7 +13,7 @@ export class NewRuleComponent implements OnInit {
 
   ruleForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private ruleService: NewRuleService, private toastr: ToastrService) { 
+  constructor(private fb: FormBuilder, private ruleService: NewRuleService, private toastr: ToastrService, private router : Router) { 
     this.ruleForm = this.fb.group({
       ruleName : [null, Validators.required],
       salienceVal : [null, [Validators.required, Validators.pattern("-?[0-9]+")]],
@@ -40,6 +41,7 @@ export class NewRuleComponent implements OnInit {
     this.ruleService.addRule(rule).subscribe(
 			result => {
         this.toastr.success("Rule added successfully!");
+        this.router.navigate['start-page'];
 				console.log(result);
 			},
 			error => {

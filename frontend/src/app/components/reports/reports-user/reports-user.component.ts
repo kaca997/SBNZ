@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 export class ReportsUserComponent implements OnInit {
 
   users: Array<any>;
+  countUsers: number = 0;
   constructor(private reportsService: ReportsService, private toastr:ToastrService) { }
 
   ngOnInit(): void {
@@ -17,6 +18,7 @@ export class ReportsUserComponent implements OnInit {
 			result => {
         console.log(result);
         this.users = result.users;
+        this.countUsers = this.users.length;
         console.log(this.users[0]);
 			},
 			error => {

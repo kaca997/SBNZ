@@ -112,6 +112,7 @@ public class ReportsService {
 //		allRecipes.add(r3);
 //		allRecipes.add(r4);
 		KieSession kieSession = kieContainer.newKieSession("rulesSession");
+		kieSession.getAgenda().getAgendaGroup("reports").setFocus();
 		kieSession.setGlobal("allRecipes", allRecipes);
 		System.out.println("Facts num: " + kieSession.getFactCount());
 		kieSession.insert(dto);
@@ -141,6 +142,7 @@ public class ReportsService {
 //		allRecipes.add(r3);
 //		allRecipes.add(r4);
 		KieSession kieSession = kieContainer.newKieSession("rulesSession");
+		kieSession.getAgenda().getAgendaGroup("reports").setFocus();
 		kieSession.setGlobal("allRecipes", allRecipes);
 		System.out.println("Facts num: " + kieSession.getFactCount());
 		kieSession.insert(dto);

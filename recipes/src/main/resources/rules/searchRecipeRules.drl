@@ -154,7 +154,7 @@ rule "Search recipe by type"
     lock-on-active
     when 
 		$found : RecipeResponseDTO($recipes: recipes)
-		$recipeSearch : SearchRecipeDTO($types: types, $types.size()>0)
+		$recipeSearch : SearchRecipeDTO($types: types, $types.size()>0, $types.size()<4)
 		$recipesFound: ArrayList() from collect (
     	 							Recipe(
  										type memberOf $types

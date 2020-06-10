@@ -24,6 +24,7 @@ import { AddRecipeComponent } from './components/recipes/add-recipe/add-recipe.c
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { ReportsUserComponent } from './components/reports/reports-user/reports-user.component';
 import { PrepareRecipeComponent } from './components/recipes/prepare-recipe/prepare-recipe.component';
+import { NewRuleComponent } from './components/new-rule/new-rule.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { PrepareRecipeComponent } from './components/recipes/prepare-recipe/prep
     RecipeDetailsComponent,
     ReportsRecipeComponent,
     ReportsUserComponent,
-    PrepareRecipeComponent
+    PrepareRecipeComponent,
+    NewRuleComponent,
   ],
   imports: [
     BrowserAnimationsModule,

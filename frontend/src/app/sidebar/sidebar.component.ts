@@ -19,6 +19,7 @@ export const ROUTES: RouteInfo[] = [
     { path: '/mostPopularRecipes', title: 'Most popular recipes',     icon:'fa fa-angle-double-up',    class: '',      role:'ROLE_ADMIN'  },
     { path: '/leastPopularRecipes', title: 'Least popular recipes',     icon:'fa fa-angle-double-down',    class: '',      role:'ROLE_ADMIN'  },
     { path: '/bestUsers', title: 'Best users',     icon:'fa fa-star',    class: '',      role:'ROLE_ADMIN'  },
+    { path: '/newRule', title: 'New rule',     icon:'nc-icon nc-simple-add',    class: '',      role:'ROLE_ADMIN'  },
    ];
 
 @Component({

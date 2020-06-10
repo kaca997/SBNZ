@@ -5,12 +5,11 @@ import com.bsep.recipes.model.Recipe;
 import com.bsep.recipes.model.RecipeComplexityType;
 import com.bsep.recipes.model.UserKnowledgeType;
 import com.bsep.recipes.model.Grade;
-import com.bsep.recipes.events.StepEvent;
 
 rule "Upgrade user to medium"
 	when 
 		$user : RegisteredUser($grades: grades, knowledge == UserKnowledgeType.BEGINER) @Watch (grades)
-		$n: Number(intValue==3) from accumulate (
+		$n: Number(intValue==2) from accumulate (
     	 						$g : Grade(
     	 							grade >= 4,
     	 							recipe.complexity == RecipeComplexityType.EASY
@@ -40,3 +39,6 @@ rule "Upgrade user to advanced"
 		System.out.println($n);
 		$user.setKnowledge(UserKnowledgeType.ADVANCED);
 end
+
+//new rules
+

@@ -1,0 +1,38 @@
+template header
+ruleName
+salienceVal
+gradesCount
+largerThenGrade
+previousType
+newType
+recipeType
+
+package rules;
+
+import com.bsep.recipes.model.RegisteredUser;
+import com.bsep.recipes.model.Recipe;
+import com.bsep.recipes.model.RecipeComplexityType;
+import com.bsep.recipes.model.UserKnowledgeType;
+import com.bsep.recipes.model.Grade;
+
+template "upgrade-user-rules"
+
+rule "Upgrade user_@{ruleName}"
+	salience @{salienceVal}
+	when 
+		$user : RegisteredUser($grades: grades, knowledge == UserKnowledgeType.@{previousType}) @Watch (grades)
+		$n: Number(intValue == @{gradesCount}) from accumulate (
+    	 						$g: Grade(
+    	 							grade >= @{largerThenGrade},
+    	 							recipe.complexity == RecipeComplexityType.@{recipeType}
+    	 						)	 
+    	 						from $grades,
+    	 						count($g)
+    	 					)
+	then
+		System.out.println($grades);
+		System.out.println($n);
+		$user.setKnowledge(UserKnowledgeType.@{newType});
+end
+
+end template

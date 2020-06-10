@@ -10,8 +10,10 @@ import com.bsep.recipes.dto.GradeDTO;
 import com.bsep.recipes.dto.StepDTO;
 import com.bsep.recipes.model.Grade;
 import com.bsep.recipes.service.GradeService;
+
 @RestController
 public class GradeController {
+	
 	@Autowired
 	GradeService gradeService;
 	

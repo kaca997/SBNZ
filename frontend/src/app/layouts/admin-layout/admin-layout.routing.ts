@@ -10,6 +10,7 @@ import { RoleGuard } from 'app/guards/role-guard.service';
 import { ReportsUserComponent } from 'app/components/reports/reports-user/reports-user.component';
 import { PrepareRecipeComponent } from 'app/components/recipes/prepare-recipe/prepare-recipe.component';
 import { StartPageComponent } from 'app/components/start-page/start-page.component';
+import { NewRuleComponent } from 'app/components/new-rule/new-rule.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'notifications',  component: NotificationsComponent },
@@ -48,5 +49,9 @@ export const AdminLayoutRoutes: Routes = [
       { path: 'start-page',
       data: { expectedRoles: 'ROLE_ADMIN|ROLE_REGISTEREDUSER' },
       canActivate: [RoleGuard],
-      component:  StartPageComponent}
+      component:  StartPageComponent},
+      { path: 'newRule',
+      data: { expectedRoles: 'ROLE_ADMIN' },
+      canActivate: [RoleGuard],
+      component:  NewRuleComponent},
 ];

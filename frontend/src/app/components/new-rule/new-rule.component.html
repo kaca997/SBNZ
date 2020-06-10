@@ -1,0 +1,96 @@
+<div class="main-content">
+    <div class="card">
+    </div>
+    <div class="card-body">
+      <div class="row justify-content-center align-items-center">
+        <form class="col-md-12 box" [formGroup]="ruleForm">
+          <fieldset>
+            <div class="form-group row">
+                <label for="name" class="control-label col-md-3"><b>Rule name:</b></label>
+                <div class="col-md-9">
+                  <input type="text" class="form-control" id="ruleName" name="ruleName" placeholder="Name" formControlName="ruleName">
+                  <small class="text-danger"  *ngIf="ruleForm.controls.ruleName.touched && ruleForm.controls.ruleName.errors?.required">
+                    This field can't be empty!</small>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="userId" class="control-label col-md-3"><b>Salience value:</b></label>
+                <div class="col-md-9">
+                  <input type="number" step="1" class="form-control" id="salienceVal" name="salienceVal" placeholder="Salience value" formControlName="salienceVal">
+                  <small class="text-danger"  *ngIf="ruleForm.controls.salienceVal.touched && ruleForm.controls.salienceVal.errors?.required">
+                    This field can't be empty!</small>
+                    <small class="text-danger"  *ngIf="ruleForm.controls.salienceVal.touched && ruleForm.controls.salienceVal.errors?.pattern">
+                    This field must be integer value!</small>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="userId" class="control-label col-md-3"><b>Number of grades:</b></label>
+                <div class="col-md-9">
+                  <input type="number" min="0" step="1" class="form-control" id="gradeCount" name="gradeCount" placeholder="Grades count" formControlName="gradeCount">
+                  <small class="text-danger"  *ngIf="ruleForm.controls.gradeCount.touched && ruleForm.controls.gradeCount.errors?.required">
+                    This field can't be empty!</small>
+                    <small class="text-danger"  *ngIf="ruleForm.controls.gradeCount.touched && ruleForm.controls.gradeCount.errors?.pattern">
+                    This field must be positive integer value!</small>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="userId" class="control-label col-md-3"><b>Grade value:</b></label>
+                <div class="col-md-9">
+                  <input type="number" min="1" max="5" step="1" class="form-control" id="gradeValue" name="gradeValue" placeholder="Grade value" formControlName="gradeValue">
+                  <small class="text-danger"  *ngIf="ruleForm.controls.gradeValue.touched && ruleForm.controls.gradeValue.errors?.required">
+                    This field can't be empty!</small>
+                    <small class="text-danger"  *ngIf="ruleForm.controls.gradeValue.touched && ruleForm.controls.gradeValue.errors?.pattern">
+                    This field must be beween 1 and 5!</small>
+                </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="type" class="control-label col-md-3"><b>Previous user type:</b></label>
+              <div class="col-md-9">
+                  <select class="form-control" id="previousUserType" name="previousUserType" placeholder="Previous user type" formControlName="previousUserType">
+                      <option value="BEGINER">Beginer</option>
+                      <option value="INTERMEDIATE">Intermediate</option>
+                      <option value="ADVANCED">Advanced</option>
+                  </select>
+                  <small class="text-danger"  *ngIf="ruleForm.controls.previousUserType.touched && ruleForm.controls.previousUserType.errors?.required">
+                  This field can't be empty!</small>
+              </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="type" class="control-label col-md-3"><b>New user type:</b></label>
+                <div class="col-md-9">
+                    <select class="form-control" id="newUserType" name="newUserType" placeholder="New user type" formControlName="newUserType">
+                        <option value="BEGINER">Beginer</option>
+                        <option value="INTERMEDIATE">Intermediate</option>
+                        <option value="ADVANCED">Advanced</option>
+                    </select>
+                    <small class="text-danger"  *ngIf="ruleForm.controls.newUserType.touched && ruleForm.controls.newUserType.errors?.required">
+                    This field can't be empty!</small>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="type" class="control-label col-md-3"><b>Recipe complexity type:</b></label>
+                <div class="col-md-9">
+                    <select class="form-control" id="recipeComplexityType" name="recipeComplexityType" placeholder="Recipe complexity type" formControlName="recipeComplexityType">
+                        <option value="EASY">Easy</option>
+                        <option value="MEDIUM">Medium</option>
+                        <option value="HARD">Hard</option>
+                    </select>
+                    <small class="text-danger"  *ngIf="ruleForm.controls.recipeComplexityType.touched && ruleForm.controls.recipeComplexityType.errors?.required">
+                    This field can't be empty!</small>
+                </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3"></div>
+              <div class="col-md-6 text-center">
+                <button class="btn btn-round" [disabled]="!ruleForm.valid" (click)="newRule()">Add rule</button>
+              </div>
+              <div class="col-md-3"></div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>

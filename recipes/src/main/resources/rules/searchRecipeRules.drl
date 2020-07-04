@@ -179,7 +179,7 @@ rule "Best recipe suggestion if all recipe's ingredients are those that user lik
 	 									$likes.containsAll(ingredients)
 	    	 						)from $recipes,
 	    	 						collectList($r)
-	    	 					)	 					
+	    	 					) 					
 	   	$otherRecipes: List() from accumulate(
 	   								$r : Recipe(
 	   									!($bestRecipes.contains($r))

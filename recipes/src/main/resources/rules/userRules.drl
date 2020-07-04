@@ -9,7 +9,7 @@ import com.bsep.recipes.model.Grade;
 rule "Upgrade user to medium"
 	when 
 		$user : RegisteredUser($grades: grades, knowledge == UserKnowledgeType.BEGINER) @Watch (grades)
-		$n: Number(intValue==2) from accumulate (
+		$n: Number(intValue==3) from accumulate (
     	 						$g : Grade(
     	 							grade >= 4,
     	 							recipe.complexity == RecipeComplexityType.EASY

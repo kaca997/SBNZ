@@ -9,6 +9,14 @@ import com.bsep.recipes.dto.StepResponseDTO;
 import java.util.List;
 
 
+query "getBadPreparationEvent"
+	$result: BadPreparationEvent()
+end
+
+query "getGoodPreparationEvent"
+	$result: GoodPreparationEvent()
+end
+
 declare window BadWindow
     StepEvent()
         over window:length( 2 )

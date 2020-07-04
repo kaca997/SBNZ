@@ -25,7 +25,7 @@ rule "Grade 5 - already prepared recipe with lower grade"
     	 					)
     	$gr : Grade() from accumulate(
     					$g : Grade(
-    						recipe==$recipe,
+    						recipe.id==$recipeid,
     						grade < 5
     					)
     					from $grades
@@ -59,16 +59,11 @@ rule "Grade 5 - already prepared recipe with same grade"
     	 						action(count += 1;),
     	 						result(count)
     	 					)
-    	$gr : Grade() from accumulate(
-    					$g : Grade(
-    						recipe==$recipe,
-    						grade >= 5
-    					)
-    					from $grades
-    					init(Grade g = null),
-    					action(g = $g;)
-    					result(g)
-    					)
+		$g : Grade(
+			recipe.id==$recipeid,
+			grade >= 5
+		)
+		from $grades
 	then
 		$grade.setGrade(5);
 		System.out.println("Same");
@@ -124,7 +119,7 @@ rule "Grade 4 - already prepared recipe with lower grade"
     	 					)
     	$gr : Grade() from accumulate(
     					$g : Grade(
-    						recipe==$recipe,
+    						recipe.id==$recipeid,
     						grade< 4
     					)
     					from $grades
@@ -159,16 +154,11 @@ rule "Grade 4 - already prepared recipe with same or higher grade"
     	 						action(count += 1;),
     	 						result(count)
     	 					)
-    	$gr : Grade() from accumulate(
-    					$g : Grade(
-    						recipe==$recipe,
-    						grade>=4
-    					)
-    					from $grades
-    					init(Grade g = null),
-    					action(g = $g;)
-    					result(g)
-    					)
+		$g : Grade(
+			recipe.id==$recipeid,
+			grade >= 4
+		)
+		from $grades
 	then
 		$grade.setGrade(4);
 		System.out.println("Same");
@@ -223,7 +213,7 @@ rule "Grade 3 - already prepared recipe with lower grade"
     	 					)
     	$gr : Grade() from accumulate(
     					$g : Grade(
-    						recipe==$recipe,
+    						recipe.id==$recipeid,
     						grade<3
     					)
     					from $grades
@@ -257,16 +247,11 @@ rule "Grade 3 - already prepared recipe with same or higher grade"
     	 						action(count += 1;),
     	 						result(count)
     	 					)
-    	$gr : Grade() from accumulate(
-    					$g : Grade(
-    						recipe==$recipe,
-    						grade>=3
-    					)
-    					from $grades
-    					init(Grade g = null),
-    					action(g = $g;)
-    					result(g)
-    					)
+		$g : Grade(
+			recipe.id==$recipeid,
+			grade >= 3
+		)
+		from $grades
 	then
 		$grade.setGrade(3);
 		System.out.println("Same");
@@ -321,7 +306,7 @@ rule "Grade 2 - already prepared recipe with lower grade"
     	 					)
     	$gr : Grade() from accumulate(
     					$g : Grade(
-    						recipe==$recipe,
+    						recipe.id==$recipeid,
     						grade<2
     					)
     					from $grades
@@ -356,18 +341,13 @@ rule "Grade 2 - already prepared recipe with higher or same grade"
     	 						action(count += 1;),
     	 						result(count)
     	 					)
-    	$gr : Grade() from accumulate(
-    					$g : Grade(
-    						recipe==$recipe,
-    						grade>=2
-    					)
-    					from $grades
-    					init(Grade g = null),
-    					action(g = $g;)
-    					result(g)
-    					)
+		$g : Grade(
+			recipe.id==$recipeid,
+			grade >= 2
+		)
+		from $grades
 	then
-		$grade.setGrade(3);
+		$grade.setGrade(2);
 		System.out.println("Same");
 		$recipe.setPrepared($recipe.getPrepared()+1);
     	update($grade);
@@ -418,16 +398,11 @@ rule "Grade 1 - already prepared recipe with higher or same grade"
     	 						action(count += 1;),
     	 						result(count)
     	 					)
-    	$gr : Grade() from accumulate(
-    					$g : Grade(
-    						recipe==$recipe,
-    						grade >= 1
-    					)
-    					from $grades
-    					init(Grade g = null),
-    					action(g = $g;)
-    					result(g)
-    					)
+		$g : Grade(
+			recipe.id==$recipeid,
+			grade >= 1
+		)
+		from $grades
 	then
 		$grade.setGrade(1);
 		System.out.println("Updated");

@@ -25,9 +25,6 @@ public class SearchRecipeDTO {
 	public List<String> getIngredients() {
 		return ingredients;
 	}
-	public void setIingredients(List<String> ingredients) {
-		this.ingredients = ingredients;
-	}
 	public int getTime() {
 		return time;
 	}
